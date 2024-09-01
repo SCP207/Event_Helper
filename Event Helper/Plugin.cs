@@ -56,7 +56,6 @@ namespace Event_Helper {
         public override void OnReloaded() {
             base.OnReloaded();
         }
-        // Woah
         private void RegisterCommands() {
             Instance = this;
             ConfigInstance = this.Config;
