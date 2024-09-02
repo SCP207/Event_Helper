@@ -23,10 +23,10 @@ namespace Event_Give_Items.Commands {
                 return false;
             }
 
-            Plugin.Instance.areTeslasTriggering = !Plugin.Instance.areTeslasTriggering;
+            Plugin.areTeslasTriggering = !Plugin.areTeslasTriggering;
 
             string teslaStop;
-            if (Plugin.Instance.areTeslasTriggering) {
+            if (Plugin.areTeslasTriggering) {
                 teslaStop = "enabled";
             } else {
                 teslaStop = "disabled";

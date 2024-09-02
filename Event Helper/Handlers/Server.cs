@@ -9,7 +9,7 @@ namespace Event_Helper.Handlers {
 
         public async void OnWaveSpawn(RespawningTeamEventArgs ev) {
             // Checks if spawn waves are enabled, doesn't run the rest if they are disabled
-            if (!Plugin.Instance.areSpawnWavesEnabled) {
+            if (!Plugin.areSpawnWavesEnabled) {
                 Log.Debug("Spawn waves are not enabled from the command \"wavesenabled\"");
                 ev.IsAllowed = false;
                 return;
@@ -19,28 +19,28 @@ namespace Event_Helper.Handlers {
             ev.IsAllowed = true;
 
             // Checks if an item should be given, then gives and force equips the item
-            if (Plugin.Instance.areItemsBeingGivenOnWave) {
+            if (Plugin.areItemsBeingGivenOnWave) {
                 Log.Debug("Items are being given out on waves from the command \"giveitemonspawn\"");
-                Log.Debug($"The item being given is {Plugin.Instance.itemsBeingGiven}");
-                raCommand = $"/give {Plugin.Instance.playerIdList} {Plugin.Instance.itemsBeingGiven}";
+                Log.Debug($"The item being given is {Plugin.itemsBeingGiven}");
+                raCommand = $"/give {Plugin.playerIdList} {Plugin.itemsBeingGiven}";
                 ExecuteCommand(raCommand); 
-                raCommand = $"/fequip {Plugin.Instance.playerIdList} {Plugin.Instance.itemsBeingGiven}";
+                raCommand = $"/fequip {Plugin.playerIdList} {Plugin.itemsBeingGiven}";
                 await ExecuteCommand(raCommand);
             }
 
             // Checks if an effect should be gien, gives it, then adds the amount you wanted to add
-            if (Plugin.Instance.areEffectsBeingGivenOnSpawn) {
+            if (Plugin.areEffectsBeingGivenOnSpawn) {
                 Log.Debug("Effects are being given out on waves from the command \"giveitemonspawn\"");
-                raCommand = $"/pfx {Plugin.Instance.effect} {Plugin.Instance.intensity} {Plugin.Instance.duration} {Plugin.Instance.playerIdList}";
+                raCommand = $"/pfx {Plugin.effect} {Plugin.intensity} {Plugin.duration} {Plugin.playerIdList}";
                 ExecuteCommand(raCommand);
-                Plugin.Instance.intensity += Plugin.Instance.additionOverTime;
+                Plugin.intensity += Plugin.additionOverTime;
             }
         }
 
         public void OnRoundEnding(EndingRoundEventArgs ev) {
             // Clears the ID list when the round ends
-            Plugin.Instance.playerIdList = "";
-            Log.Debug($"The round ended\nEvent Helpers now has the player list of: {Plugin.Instance.playerIdList}");
+            Plugin.playerIdList = "";
+            Log.Debug($"The round ended\nEvent Helpers now has the player list of: {Plugin.playerIdList}");
         }
 
         private async Task ExecuteCommand(string command) {

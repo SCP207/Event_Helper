@@ -31,7 +31,7 @@ namespace Event_Give_Items.Commands {
                 return false;
             }
             if (arguments.At(0) == "false") {
-                Plugin.Instance.areEffectsBeingGivenOnSpawn = false;
+                Plugin.areEffectsBeingGivenOnSpawn = false;
                 response = $"Done! Every spawn wave will not give effects";
                 return true;
             }
@@ -52,11 +52,11 @@ namespace Event_Give_Items.Commands {
 
             if (intensity > 255) { intensity = 255; }
 
-            Plugin.Instance.areEffectsBeingGivenOnSpawn = true;
-            Plugin.Instance.effect = effect;
-            Plugin.Instance.duration = duration;
-            Plugin.Instance.intensity = intensity;
-            Plugin.Instance.additionOverTime = additionOverTime;
+            Plugin.areEffectsBeingGivenOnSpawn = true;
+            Plugin.effect = effect;
+            Plugin.duration = duration;
+            Plugin.intensity = intensity;
+            Plugin.additionOverTime = additionOverTime;
 
             response = $"Done! Every spawn wave will give the effect {effect} for {duration} seconds with intensity {intensity}";
             return true;

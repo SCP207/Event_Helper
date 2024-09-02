@@ -36,11 +36,11 @@ namespace Event_Give_Items.Commands {
 
             // Checks if the item is a valid item
             if (itemID == -1) {
-                Plugin.Instance.areItemsBeingGivenOnWave = false;
+                Plugin.areItemsBeingGivenOnWave = false;
                 response = $"Done! Players won't be given items when they spawn";
             } else if (itemID >= itemIDMin || itemID <= itemIDMax) {
-                Plugin.Instance.areItemsBeingGivenOnWave = true;
-                Plugin.Instance.itemsBeingGiven = itemID;
+                Plugin.areItemsBeingGivenOnWave = true;
+                Plugin.itemsBeingGiven = itemID;
                 response = $"Done! Every spawn wave will give item {itemID}";
             } else {
                 response = $"Invalid value: {arguments.At(0)}\nMust be between -1 and 54";

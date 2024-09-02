@@ -6,9 +6,6 @@ using ServerHandlers = Exiled.Events.Handlers.Server;
 
 namespace Event_Helper {
     public class Plugin : Plugin<Config> {
-        public static Plugin Instance { get; private set; }
-        public static Config ConfigInstance { get; private set; }
-
         public override string Author { get; } = "SCP-207";
 
         public override string Name { get; } = "Event Helpers";
@@ -19,24 +16,24 @@ namespace Event_Helper {
 
         public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
 
-        public override Version Version { get; } = new Version(1, 0, 0);
+        public override Version Version { get; } = new Version(1, 0, 1);
 
-        public string playerIdList;
+        public static string playerIdList;
 
-        public bool isInfAmmoEnabled = false;
+        public static bool isInfAmmoEnabled = false;
 
-        public bool areSpawnWavesEnabled = true;
+        public static bool areSpawnWavesEnabled = true;
 
-        public bool areItemsBeingGivenOnWave = false;
-        public int itemsBeingGiven;
+        public static bool areItemsBeingGivenOnWave = false;
+        public static int itemsBeingGiven;
 
-        public bool areEffectsBeingGivenOnSpawn = false;
-        public string effect;
-        public int duration;
-        public int intensity;
-        public int additionOverTime;
+        public static bool areEffectsBeingGivenOnSpawn = false;
+        public static string effect;
+        public static int duration;
+        public static int intensity;
+        public static int additionOverTime;
 
-        public bool areTeslasTriggering = true;
+        public static bool areTeslasTriggering = true;
 
         private Handlers.Player player;
         private Handlers.Server server;
@@ -57,9 +54,6 @@ namespace Event_Helper {
             base.OnReloaded();
         }
         private void RegisterCommands() {
-            Instance = this;
-            ConfigInstance = this.Config;
-
             player = new Handlers.Player();
             server = new Handlers.Server();
 
@@ -81,9 +75,6 @@ namespace Event_Helper {
 
             player = null;
             server = null;
-
-            ConfigInstance = null;
-            Instance = null;
         }
     }
 }

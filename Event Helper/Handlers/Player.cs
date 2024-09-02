@@ -11,21 +11,21 @@ namespace Event_Helper.Handlers {
     public class Player {
         public void OnVerified(VerifiedEventArgs ev) {
             // If a player joins, the ID list this plugin keeps track of adds them
-            Plugin.Instance.playerIdList += $"{ev.Player.Id}.";
-            Log.Debug($"Someone joined\nEvent Helpers now has the player list of: {Plugin.Instance.playerIdList}");
+            Plugin.playerIdList += $"{ev.Player.Id}.";
+            Log.Debug($"Someone joined\nEvent Helpers now has the player list of: {Plugin.playerIdList}");
         }
 
         public void OnWeaponReload(ReloadingWeaponEventArgs ev) {
             // Checks if players should have infinite ammo
             // Note: You do need to have any amount of ammo in your inventory originally for you to get infinite
-            if (Plugin.Instance.isInfAmmoEnabled) {
+            if (Plugin.isInfAmmoEnabled) {
                 ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxAmmo * 2));
             }
         }
 
         public void OnTeslaGateActivate(TriggeringTeslaEventArgs ev) {
             // Checks if teslas should be triggered
-            if (!Plugin.Instance.areTeslasTriggering) {
+            if (!Plugin.areTeslasTriggering) {
                 ev.IsTriggerable = false;
             } else {
                 ev.IsTriggerable = true;

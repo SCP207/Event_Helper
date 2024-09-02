@@ -22,10 +22,10 @@ namespace Event_Give_Items.Commands {
                 return false;
             }
 
-            Plugin.Instance.areSpawnWavesEnabled = !Plugin.Instance.areSpawnWavesEnabled;
+            Plugin.areSpawnWavesEnabled = !Plugin.areSpawnWavesEnabled;
 
             string spawnWaves;
-            if (Plugin.Instance.areSpawnWavesEnabled) {
+            if (Plugin.areSpawnWavesEnabled) {
                 spawnWaves = "enabled";
             } else {
                 spawnWaves = "disabled";
