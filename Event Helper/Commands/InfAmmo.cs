@@ -22,6 +22,14 @@ namespace Event_Helper.Commands {
 
             Plugin.isInfAmmoEnabled = !Plugin.isInfAmmoEnabled;
 
+            if (Plugin.isInfAmmoEnabled) {
+                ServerConsole.EnterCommand($"/give {Plugin.playerIdList} 19");
+                ServerConsole.EnterCommand($"/give {Plugin.playerIdList} 22");
+                ServerConsole.EnterCommand($"/give {Plugin.playerIdList} 27");
+                ServerConsole.EnterCommand($"/give {Plugin.playerIdList} 28");
+                ServerConsole.EnterCommand($"/give {Plugin.playerIdList} 29");
+            }
+
             Log.Debug($"Infinite Ammo is set to {Plugin.isInfAmmoEnabled}");
             response = $"Done! Infinite Ammo is now {Plugin.isInfAmmoEnabled}";
             return true;

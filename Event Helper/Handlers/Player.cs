@@ -1,11 +1,6 @@
-﻿using Exiled.API.Features;
-using Exiled.API.Features.Pickups;
-using Exiled.Events.EventArgs.Map;
+﻿using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-using Exiled.Events.Handlers;
-using InventorySystem.Items.Pickups;
-using PlayerRoles;
-using System.Threading.Tasks;
 
 namespace Event_Helper.Handlers {
     public class Player {
@@ -17,9 +12,26 @@ namespace Event_Helper.Handlers {
 
         public void OnWeaponReload(ReloadingWeaponEventArgs ev) {
             // Checks if players should have infinite ammo
-            // Note: You do need to have any amount of ammo in your inventory originally for you to get infinite
             if (Plugin.isInfAmmoEnabled) {
-                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxAmmo * 2));
+                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxAmmo + 1));
+            }
+        }
+        public void OnAmmoDrop(DroppingAmmoEventArgs ev) {
+            // Disallows players from dropping ammo if infinite ammo is enabled
+            if (Plugin.isInfAmmoEnabled) {
+                ev.IsAllowed = false;
+            } else {
+                ev.IsAllowed = true;
+            }
+        }
+        public void OnSpawn(SpawnedEventArgs ev) {
+            // Adds ammo whenever someone spawns if infinite ammo is enabled
+            if (Plugin.isInfAmmoEnabled) {
+                ev.Player.AddAmmo(AmmoType.Nato9, 1);
+                ev.Player.AddAmmo(AmmoType.Nato556, 1);
+                ev.Player.AddAmmo(AmmoType.Nato762, 1);
+                ev.Player.AddAmmo(AmmoType.Ammo12Gauge, 1);
+                ev.Player.AddAmmo(AmmoType.Ammo44Cal, 1);
             }
         }
 

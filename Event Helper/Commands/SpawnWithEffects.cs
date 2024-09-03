@@ -23,7 +23,7 @@ namespace Event_Give_Items.Commands {
                 return false;
             }
             if (arguments.Count < 1) {
-                response = "Usage: giveeffectonspawn (Effect) (Duration [0 for none]) (Intensity [255 max]) (How much to add over time [0 for none])";
+                response = "Usage: giveeffectonspawn (Effect [or false]) (Duration [0 for none]) (Intensity [255 max]) (How much to add over time [0 for none])";
                 return false;
             }
             if (arguments.Count != 4 && arguments.Count != 1) {

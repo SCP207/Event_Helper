@@ -1,7 +1,6 @@
 ﻿using Exiled.Events.EventArgs.Server;
 using System.Threading.Tasks;
 using Exiled.API.Features;
-using PluginAPI.Events;
 
 namespace Event_Helper.Handlers {
     public class Server {

@@ -16,7 +16,7 @@ namespace Event_Helper {
 
         public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
 
-        public override Version Version { get; } = new Version(1, 0, 1);
+        public override Version Version { get; } = new Version(1, 1, 0);
 
         public static string playerIdList;
 
@@ -50,14 +50,13 @@ namespace Event_Helper {
             base.OnDisabled();
         }
 
-        public override void OnReloaded() {
-            base.OnReloaded();
-        }
         private void RegisterCommands() {
             player = new Handlers.Player();
             server = new Handlers.Server();
 
             PlayerHandlers.ReloadingWeapon += player.OnWeaponReload;
+            PlayerHandlers.DroppingAmmo += player.OnAmmoDrop;
+            PlayerHandlers.Spawned += player.OnSpawn;
             PlayerHandlers.Verified += player.OnVerified;
             PlayerHandlers.TriggeringTesla += player.OnTeslaGateActivate;
 
@@ -67,6 +66,8 @@ namespace Event_Helper {
 
         private void UnregisterCommands() {
             PlayerHandlers.ReloadingWeapon -= player.OnWeaponReload;
+            PlayerHandlers.DroppingAmmo -= player.OnAmmoDrop;
+            PlayerHandlers.Spawned -= player.OnSpawn;
             PlayerHandlers.Verified -= player.OnVerified;
             PlayerHandlers.TriggeringTesla -= player.OnTeslaGateActivate;
 
