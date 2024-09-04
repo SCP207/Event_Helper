@@ -20,9 +20,9 @@ namespace Event_Helper.Handlers {
             // Disallows players from dropping ammo if infinite ammo is enabled
             if (Plugin.isInfAmmoEnabled) {
                 ev.IsAllowed = false;
-            } else {
-                ev.IsAllowed = true;
+                return;
             }
+            ev.IsAllowed = true;
         }
         public void OnSpawn(SpawnedEventArgs ev) {
             // Adds ammo whenever someone spawns if infinite ammo is enabled
@@ -39,9 +39,9 @@ namespace Event_Helper.Handlers {
             // Checks if teslas should be triggered
             if (!Plugin.areTeslasTriggering) {
                 ev.IsTriggerable = false;
-            } else {
-                ev.IsTriggerable = true;
+                return;
             }
+            ev.IsTriggerable = true;
         }
     }
 }

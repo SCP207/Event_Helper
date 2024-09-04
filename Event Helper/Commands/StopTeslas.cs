@@ -25,13 +25,10 @@ namespace Event_Give_Items.Commands {
 
             Plugin.areTeslasTriggering = !Plugin.areTeslasTriggering;
 
-            string teslaStop;
+            string teslaStop = "disabled";
             if (Plugin.areTeslasTriggering) {
                 teslaStop = "enabled";
-            } else {
-                teslaStop = "disabled";
             }
-
 
             Log.Debug($"Tesla gates are now {teslaStop}");
             response = $"Done! Teslas are now {teslaStop}";

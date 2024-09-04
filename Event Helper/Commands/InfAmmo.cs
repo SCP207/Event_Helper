@@ -8,7 +8,7 @@ namespace Event_Helper.Commands {
     public class InfAmmo : ICommand {
         public string Command { get; } = "infammo";
         public string[] Aliases { get; } = { "ia", "infiniteammo" };
-        public string Description { get; } = "Gives a player reloading a weapon ammo, affects everyone (Toggle)";
+        public string Description { get; } = "Gives every player infinite ammo (Toggle)";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
             if (!sender.CheckPermission("eh.infammo")) {

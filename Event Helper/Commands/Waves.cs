@@ -8,9 +8,9 @@ namespace Event_Give_Items.Commands {
     public class Waves : ICommand {
         public string Command { get; } = "wavesenabled";
 
-        public string[] Aliases { get; } = { "we", "enablewaves", "wavesoff" };
+        public string[] Aliases { get; } = { "we", "enablewaves", "wavesoff", "togglewaves", "disablewaves" };
 
-        public string Description { get; } = "Turns on and off waves (Toggle)";
+        public string Description { get; } = "Turns waves on and off (Toggle)";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
             if (!sender.CheckPermission("eh.wavesenabled")) {
@@ -24,11 +24,9 @@ namespace Event_Give_Items.Commands {
 
             Plugin.areSpawnWavesEnabled = !Plugin.areSpawnWavesEnabled;
 
-            string spawnWaves;
+            string spawnWaves = "disabled";
             if (Plugin.areSpawnWavesEnabled) {
                 spawnWaves = "enabled";
-            } else {
-                spawnWaves = "disabled";
             }
 
             response = $"Done! Spawn waves are now {spawnWaves}";
