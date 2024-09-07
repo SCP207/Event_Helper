@@ -15,7 +15,7 @@ namespace Event_Give_Items.Commands {
         public string[] Usage { get; } = { "Only affects class D" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.infammo")) {
+            if (!sender.CheckPermission("eh.noitemspawn")) {
                 response = "You don't have permission to run this command";
                 return false;
             }

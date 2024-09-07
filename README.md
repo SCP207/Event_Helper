@@ -3,6 +3,8 @@ This plugin provides 5 useful commands for events:
 
 - infinite ammo
 
+- infinite ammo in guns
+
 - stop waves
 
 - spawn waves giving items
@@ -10,6 +12,8 @@ This plugin provides 5 useful commands for events:
 - spawn waves giving effects
 
 - stop teslas
+
+- Prevent people from spawning with items
 
 ## Permissions:
 
@@ -22,3 +26,5 @@ This plugin provides 5 useful commands for events:
 - eh.wavegiveeffects
 
 - eh.stopteslas
+
+- eh.noitemspawn
