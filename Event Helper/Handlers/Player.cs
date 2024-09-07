@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using PlayerRoles;
 
 namespace Event_Helper.Handlers {
     public class Player {
@@ -32,6 +33,17 @@ namespace Event_Helper.Handlers {
             ev.IsAllowed = true;
         }
         public void OnSpawn(SpawnedEventArgs ev) {
+            // Clears the inventory of the player if they shouldn't spawn with items
+            if (!Plugin.doPlayersSpawnWithItems) {
+                if (Plugin.affectsOnlyClassD) {
+                    if (ev.Player.Role == RoleTypeId.ClassD) {
+                        ev.Player.ClearInventory();
+                    }
+                } else {
+                    ev.Player.ClearInventory();
+                }
+            }
+
             // Adds ammo whenever someone spawns if infinite ammo is enabled
             if (Plugin.isInfAmmoEnabled) {
                 ev.Player.AddAmmo(AmmoType.Nato9, 1);

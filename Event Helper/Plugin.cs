@@ -37,6 +37,9 @@ namespace Event_Helper {
 
         public static bool areTeslasTriggering = true;
 
+        public static bool doPlayersSpawnWithItems = true;
+        public static bool affectsOnlyClassD = false;
+
         private Handlers.Player player;
         private Handlers.Server server;
 
