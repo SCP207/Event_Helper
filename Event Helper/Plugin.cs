@@ -22,6 +22,8 @@ namespace Event_Helper {
 
         public static bool isInfAmmoEnabled = false;
 
+        public static bool isInfInGunAmmoEnabled = false;
+
         public static bool areSpawnWavesEnabled = true;
 
         public static bool areItemsBeingGivenOnWave = false;
@@ -54,6 +56,7 @@ namespace Event_Helper {
             player = new Handlers.Player();
             server = new Handlers.Server();
 
+            PlayerHandlers.Shot += player.OnWeaponFire;
             PlayerHandlers.ReloadingWeapon += player.OnWeaponReload;
             PlayerHandlers.DroppingAmmo += player.OnAmmoDrop;
             PlayerHandlers.Spawned += player.OnSpawn;
@@ -65,6 +68,7 @@ namespace Event_Helper {
         }
 
         private void UnregisterCommands() {
+            PlayerHandlers.Shot -= player.OnWeaponFire;
             PlayerHandlers.ReloadingWeapon -= player.OnWeaponReload;
             PlayerHandlers.DroppingAmmo -= player.OnAmmoDrop;
             PlayerHandlers.Spawned -= player.OnSpawn;

@@ -10,6 +10,13 @@ namespace Event_Helper.Handlers {
             Log.Debug($"Someone joined\nEvent Helpers now has the player list of: {Plugin.playerIdList}");
         }
 
+        public void OnWeaponFire(ShotEventArgs ev) {
+            // Checks if players should have infinite ammo without reloading
+            if (Plugin.isInfInGunAmmoEnabled) {
+                ev.Firearm.Ammo = ev.Firearm.MaxAmmo;
+            }
+        }
+
         public void OnWeaponReload(ReloadingWeaponEventArgs ev) {
             // Checks if players should have infinite ammo
             if (Plugin.isInfAmmoEnabled) {

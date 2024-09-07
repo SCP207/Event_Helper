@@ -135,6 +135,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\InfAmmoInGun.cs" />
     <Compile Include="Commands\SpawnWithEffects.cs" />
     <Compile Include="Commands\SpawnWithItems.cs" />
     <Compile Include="Commands\StopTeslas.cs" />
