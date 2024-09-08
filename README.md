@@ -1,5 +1,5 @@
 # Event_Helper_SL_EXILED
-This plugin provides 5 useful commands for events:
+This plugin provides 9 useful commands for events:
 
 - infinite ammo
 
@@ -15,6 +15,10 @@ This plugin provides 5 useful commands for events:
 
 - Prevent people from spawning with items
 
+- Make doors indestructible
+
+- Make windows indestructible
+
 ## Permissions:
 
 - eh.infammo
@@ -28,3 +32,7 @@ This plugin provides 5 useful commands for events:
 - eh.stopteslas
 
 - eh.noitemspawn
+
+- eh.doorbreaking
+
+- eh.windowsbreaking
