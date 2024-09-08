@@ -135,12 +135,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\DoorBreaking.cs" />
     <Compile Include="Commands\InfAmmoInGun.cs" />
     <Compile Include="Commands\SpawnWithEffects.cs" />
     <Compile Include="Commands\SpawnWithItems.cs" />
     <Compile Include="Commands\SpawnWithNoItems.cs" />
     <Compile Include="Commands\StopTeslas.cs" />
     <Compile Include="Commands\Waves.cs" />
+    <Compile Include="Commands\WindowsBreaking.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Commands\InfAmmo.cs" />
     <Compile Include="Handlers\Player.cs" />

@@ -62,5 +62,20 @@ namespace Event_Helper.Handlers {
             }
             ev.IsTriggerable = true;
         }
+
+        public void OnDoorDamage(DamagingDoorEventArgs ev) {
+            if (!Plugin.doDoorsBreak) {
+                ev.IsAllowed = false;
+                return;
+            }
+            ev.IsAllowed = true;
+        }
+        public void OnWindowDamage(DamagingWindowEventArgs ev) {
+            if (!Plugin.doWindowsBreak) {
+                ev.IsAllowed = false;
+                return;
+            }
+            ev.IsAllowed = true;
+        }
     }
 }

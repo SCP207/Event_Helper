@@ -16,7 +16,7 @@ namespace Event_Helper {
 
         public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
 
-        public override Version Version { get; } = new Version(2, 0, 1);
+        public override Version Version { get; } = new Version(2, 0, 2);
 
         public static string playerIdList;
 
@@ -39,6 +39,10 @@ namespace Event_Helper {
 
         public static bool doPlayersSpawnWithItems = true;
         public static bool affectsOnlyClassD = false;
+
+        public static bool doDoorsBreak = true;
+
+        public static bool doWindowsBreak = true;
 
         private Handlers.Player player;
         private Handlers.Server server;
@@ -65,6 +69,8 @@ namespace Event_Helper {
             PlayerHandlers.Spawned += player.OnSpawn;
             PlayerHandlers.Verified += player.OnVerified;
             PlayerHandlers.TriggeringTesla += player.OnTeslaGateActivate;
+            PlayerHandlers.DamagingDoor += player.OnDoorDamage;
+            PlayerHandlers.PlayerDamageWindow += player.OnWindowDamage;
 
             ServerHandlers.RespawningTeam += server.OnWaveSpawn;
             ServerHandlers.EndingRound += server.OnRoundEnding;
@@ -77,6 +83,8 @@ namespace Event_Helper {
             PlayerHandlers.Spawned -= player.OnSpawn;
             PlayerHandlers.Verified -= player.OnVerified;
             PlayerHandlers.TriggeringTesla -= player.OnTeslaGateActivate;
+            PlayerHandlers.DamagingDoor -= player.OnDoorDamage;
+            PlayerHandlers.PlayerDamageWindow -= player.OnWindowDamage;
 
             ServerHandlers.RespawningTeam -= server.OnWaveSpawn;
             ServerHandlers.EndingRound -= server.OnRoundEnding;
