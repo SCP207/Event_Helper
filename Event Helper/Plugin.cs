@@ -16,7 +16,7 @@ namespace Event_Helper {
 
         public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
 
-        public override Version Version { get; } = new Version(2, 0, 2);
+        public override Version Version { get; } = new Version(2, 1, 0);
 
         public static string playerIdList;
 
