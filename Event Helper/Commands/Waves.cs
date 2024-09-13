@@ -7,9 +7,7 @@ namespace Event_Give_Items.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Waves : ICommand {
         public string Command { get; } = "wavesenabled";
-
         public string[] Aliases { get; } = { "we", "enablewaves", "wavesoff", "togglewaves", "disablewaves" };
-
         public string Description { get; } = "Turns waves on and off (Toggle)";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {

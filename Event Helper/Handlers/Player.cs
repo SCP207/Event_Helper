@@ -5,12 +5,6 @@ using PlayerRoles;
 
 namespace Event_Helper.Handlers {
     public class Player {
-        public void OnVerified(VerifiedEventArgs ev) {
-            // If a player joins, the ID list this plugin keeps track of adds them
-            Plugin.playerIdList += $"{ev.Player.Id}.";
-            Log.Debug($"Someone joined\nEvent Helpers now has the player list of: {Plugin.playerIdList}");
-        }
-
         public void OnWeaponFire(ShotEventArgs ev) {
             // Checks if players should have infinite ammo without reloading
             if (Plugin.isInfInGunAmmoEnabled) {
@@ -32,6 +26,7 @@ namespace Event_Helper.Handlers {
             }
             ev.IsAllowed = true;
         }
+
         public void OnSpawn(SpawnedEventArgs ev) {
             // Clears the inventory of the player if they shouldn't spawn with items
             if (!Plugin.doPlayersSpawnWithItems) {
@@ -64,6 +59,7 @@ namespace Event_Helper.Handlers {
         }
 
         public void OnDoorDamage(DamagingDoorEventArgs ev) {
+            // Checks if doors should break
             if (!Plugin.doDoorsBreak) {
                 ev.IsAllowed = false;
                 return;
@@ -71,11 +67,26 @@ namespace Event_Helper.Handlers {
             ev.IsAllowed = true;
         }
         public void OnWindowDamage(DamagingWindowEventArgs ev) {
+            // Checks if windows should break
             if (!Plugin.doWindowsBreak) {
                 ev.IsAllowed = false;
                 return;
             }
             ev.IsAllowed = true;
+        }
+
+        public void OnDoorInteract(InteractingDoorEventArgs ev) {
+            // Checks if the player should be locking the door
+            if (Plugin.lockDoors.Contains(ev.Player)) {
+                if (!ev.Door.IsLocked) {
+                    if (!ev.Player.IsBypassModeEnabled) {
+                        ev.Door.IsOpen = true;
+                    }
+                    ev.Door.Lock(99999, DoorLockType.AdminCommand);
+                } else {
+                    ev.Door.Unlock();
+                }
+            }
         }
     }
 }

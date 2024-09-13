@@ -1,38 +1,45 @@
 # Event_Helper_SL_EXILED
-This plugin provides 9 useful commands for events:
+This plugin provides 10 useful commands for events:
 
-- infinite ammo
+1. infinite ammo
 
-- infinite ammo in guns
+2. infinite ammo in guns
 
-- stop waves
+3. stop waves
 
-- spawn waves giving items
+4. spawn waves giving items
 
-- spawn waves giving effects
+5. spawn waves giving effects
 
-- stop teslas
+6. stop teslas
 
-- Prevent people from spawning with items
+7. Prevent people from spawning with items
 
-- Make doors indestructible
+8. Make doors indestructible
 
-- Make windows indestructible
+9. Make windows indestructible
+
+10. Allows people to lock any door (like bypass)
 
 ## Permissions:
+**Note:** They may repeat, but the numbers corrospond to the command
 
-- eh.infammo
+1. eh.infammo
 
-- eh.wavesenabled
+2. eh.infammo
 
-- eh.wavegiveitems
+3. eh.wavesenabled
 
-- eh.wavegiveeffects
+4. eh.wavegiveitems
 
-- eh.stopteslas
+5. eh.wavegiveeffects
 
-- eh.noitemspawn
+6. eh.stopteslas
 
-- eh.doorbreaking
+7. eh.noitemspawn
 
-- eh.windowsbreaking
+8. eh.breakable
+
+9. eh.breakable
+
+10. eh.lockdoors

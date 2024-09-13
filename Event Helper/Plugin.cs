@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using PlayerHandlers = Exiled.Events.Handlers.Player;
@@ -16,9 +17,7 @@ namespace Event_Helper {
 
         public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
 
-        public override Version Version { get; } = new Version(2, 1, 0);
-
-        public static string playerIdList;
+        public override Version Version { get; } = new Version(3, 0, 0);
 
         public static bool isInfAmmoEnabled = false;
 
@@ -30,10 +29,10 @@ namespace Event_Helper {
         public static int itemsBeingGiven;
 
         public static bool areEffectsBeingGivenOnSpawn = false;
-        public static string effect;
-        public static int duration;
-        public static int intensity;
-        public static int additionOverTime;
+        public static List<string> effectNames;
+        public static int effectDuration;
+        public static byte effectIntensity;
+        public static byte effectIntensityAdditionOverTime;
 
         public static bool areTeslasTriggering = true;
 
@@ -43,6 +42,9 @@ namespace Event_Helper {
         public static bool doDoorsBreak = true;
 
         public static bool doWindowsBreak = true;
+        public static Dictionary<Window, float> windowHealthList { get; } = new Dictionary<Window, float>();
+
+        public static List<Player> lockDoors { get; } = new List<Player>();
 
         private Handlers.Player player;
         private Handlers.Server server;
@@ -67,13 +69,12 @@ namespace Event_Helper {
             PlayerHandlers.ReloadingWeapon += player.OnWeaponReload;
             PlayerHandlers.DroppingAmmo += player.OnAmmoDrop;
             PlayerHandlers.Spawned += player.OnSpawn;
-            PlayerHandlers.Verified += player.OnVerified;
             PlayerHandlers.TriggeringTesla += player.OnTeslaGateActivate;
             PlayerHandlers.DamagingDoor += player.OnDoorDamage;
             PlayerHandlers.PlayerDamageWindow += player.OnWindowDamage;
+            PlayerHandlers.InteractingDoor += player.OnDoorInteract;
 
             ServerHandlers.RespawningTeam += server.OnWaveSpawn;
-            ServerHandlers.EndingRound += server.OnRoundEnding;
         }
 
         private void UnregisterCommands() {
@@ -81,13 +82,12 @@ namespace Event_Helper {
             PlayerHandlers.ReloadingWeapon -= player.OnWeaponReload;
             PlayerHandlers.DroppingAmmo -= player.OnAmmoDrop;
             PlayerHandlers.Spawned -= player.OnSpawn;
-            PlayerHandlers.Verified -= player.OnVerified;
             PlayerHandlers.TriggeringTesla -= player.OnTeslaGateActivate;
             PlayerHandlers.DamagingDoor -= player.OnDoorDamage;
             PlayerHandlers.PlayerDamageWindow -= player.OnWindowDamage;
+            PlayerHandlers.InteractingDoor -= player.OnDoorInteract;
 
             ServerHandlers.RespawningTeam -= server.OnWaveSpawn;
-            ServerHandlers.EndingRound -= server.OnRoundEnding;
 
             player = null;
             server = null;

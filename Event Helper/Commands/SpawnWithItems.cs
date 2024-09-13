@@ -9,11 +9,8 @@ namespace Event_Give_Items.Commands {
         private int itemID, itemIDMax = 54, itemIDMin = 0;
 
         public string Command { get; } = "giveitemonwave";
-
         public string[] Aliases { get; } = { "gis", "spawngive", "giveitemonspawn" };
-
         public string Description { get; } = "Gives everyone an item when they spawn, use -1 to disable";
-
         public string[] Usage { get; } = { "Item ID" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {

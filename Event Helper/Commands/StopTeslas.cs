@@ -8,9 +8,7 @@ namespace Event_Give_Items.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class StopTeslas : ICommand {
         public string Command { get; } = "stopteslas";
-
         public string[] Aliases { get; } = { "stopt", "steslas", "teslastop", "stopteslastriggering"};
-
         public string Description { get; } = "Prevent tesla gates from triggering (Toggle)";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {

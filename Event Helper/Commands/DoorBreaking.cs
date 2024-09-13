@@ -12,7 +12,7 @@ namespace Event_Give_Items.Commands {
         public string Description { get; } = "Disallows doors to break";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.doorbreaking")) {
+            if (!sender.CheckPermission("eh.breakable")) {
                 response = "You don't have permission to run this command";
                 return false;
             }

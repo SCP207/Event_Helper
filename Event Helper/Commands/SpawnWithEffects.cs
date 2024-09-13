@@ -7,14 +7,12 @@ namespace Event_Give_Items.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SpawnWithEffects : ICommand, IUsageProvider {
         private string effect;
-        private int duration, intensity, additionOverTime;
+        private int duration;
+        private byte intensity, additionOverTime;
 
         public string Command { get; } = "giveeffectonspawn";
-
         public string[] Aliases { get; } = { "ges", "spawneffect" };
-
         public string Description { get; } = "Gives everyone an effect when the spawn in";
-
         public string[] Usage { get; } = { "Effect (or false)", "Duration", "Intensity", "How much to add over time" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
@@ -39,24 +37,22 @@ namespace Event_Give_Items.Commands {
                 response = $"Invalid value: {arguments.At(1)}";
                 return false;
             }
-            if (!int.TryParse(arguments.At(2), out intensity)) {
+            if (!byte.TryParse(arguments.At(2), out intensity)) {
                 response = $"Invalid value: {arguments.At(2)}";
                 return false;
             }
-            if (!int.TryParse(arguments.At(3), out additionOverTime)) {
+            if (!byte.TryParse(arguments.At(3), out additionOverTime)) {
                 response = $"Invalid value: {arguments.At(3)}";
                 return false;
             }
 
             effect = arguments.At(0);
 
-            if (intensity > 255) { intensity = 255; }
-
             Plugin.areEffectsBeingGivenOnSpawn = true;
-            Plugin.effect = effect;
-            Plugin.duration = duration;
-            Plugin.intensity = intensity;
-            Plugin.additionOverTime = additionOverTime;
+            Plugin.effectNames.Add(effect);
+            Plugin.effectDuration = duration;
+            Plugin.effectIntensity = intensity;
+            Plugin.effectIntensityAdditionOverTime = additionOverTime;
 
             response = $"Done! Every spawn wave will give the effect {effect} for {duration} seconds with intensity {intensity}";
             return true;
