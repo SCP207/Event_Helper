@@ -8,8 +8,6 @@ using System.Collections.Generic;
 namespace Event_Give_Items.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class LockDoors : ICommand, IUsageProvider {
-        int removed = 0, added = 0;
-
         public string Command { get; } = "lockdoors";
         public string[] Aliases { get; } = { "doorlocking" };
         public string Description { get; } = "Like bypass, but allows a player to lock a door";
