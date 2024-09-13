@@ -9,9 +9,9 @@ namespace Event_Give_Items.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class LockDoors : ICommand, IUsageProvider {
         public string Command { get; } = "lockdoors";
-        public string[] Aliases { get; } = { "doorlocking" };
+        public string[] Aliases { get; } = { "doorlocking", "dl" };
         public string Description { get; } = "Like bypass, but allows a player to lock a door";
-        public string[] Usage { get; } = { "Add / Remove", "%player% or clear"};
+        public string[] Usage { get; } = { "Add / Remove", "%player%"};
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
             if (!sender.CheckPermission("eh.lockdoors")) {
@@ -38,7 +38,6 @@ namespace Event_Give_Items.Commands {
                     response = $"Invalid value: {arguments.At(0)}";
                     return false;
                 }
-                added = Player.Dictionary.Count;
             } else {
                 players = Player.GetProcessedData(arguments);
                 foreach (Player p in players) {
@@ -58,14 +57,11 @@ namespace Event_Give_Items.Commands {
                 isAdded = "removed from";
             }
 
-            if (arguments.At(1) != "clear") {
-                Log.Debug($"Players {isAdded} lock doors");
-                response = $"Done! Players were {isAdded} LockDoors";
-            } else {
-                Plugin.lockDoors.RemoveRange(0, Plugin.lockDoors.Count);
-                Log.Debug($"Players are no longer able to lock doors");
-                response = $"Done! All players have been removed from LockDoors";
-            }
+            Log.Debug($"Players {isAdded} lock doors");
+            response = $"Done! Players were {isAdded} LockDoors";
+            Plugin.lockDoors.RemoveRange(0, Plugin.lockDoors.Count);
+            Log.Debug($"Players are no longer able to lock doors");
+            response = $"Done! All players have been removed from LockDoors";
 
             return true;
         }

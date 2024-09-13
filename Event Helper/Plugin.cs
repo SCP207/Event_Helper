@@ -17,7 +17,7 @@ namespace Event_Helper {
 
         public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
 
-        public override Version Version { get; } = new Version(3, 0, 0);
+        public override Version Version { get; } = new Version(3, 0, 1);
 
         public static bool isInfAmmoEnabled = false;
 
