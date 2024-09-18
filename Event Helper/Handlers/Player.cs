@@ -1,5 +1,4 @@
 ﻿using Exiled.API.Enums;
-using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
 
@@ -87,6 +86,44 @@ namespace Event_Helper.Handlers {
                     ev.Door.Unlock();
                 }
             }
+        }
+
+        public void OnPlayerDeath(DyingEventArgs ev) {
+            if (Plugin.config.TeslaVaporize) {
+                if (ev.DamageHandler.Type == DamageType.Tesla) {
+                    ev.Player.Vaporize();
+                }
+            }
+        }
+
+        public void OnPlayerDetained(HandcuffingEventArgs ev) {
+            ev.IsAllowed = true;
+
+            if (!Plugin.config.GodModePlayersGetDetained) {
+                if (ev.Target.IsGodModeEnabled) {
+                    ev.IsAllowed = false;
+                }
+            }
+            if (!Plugin.config.BypassPlayersGetDetained) {
+                if (ev.Target.IsBypassModeEnabled) {
+                    ev.IsAllowed = false;
+                }
+            }
+        }
+
+        public void OnPickUpItem(PickingUpItemEventArgs ev) {
+            foreach (Exiled.API.Features.Player p in Plugin.itemUnableToPickUp.Keys) {
+                if (ev.Player == p) {
+                    Plugin.itemUnableToPickUp.TryGetValue(p, out var items);
+                    foreach (ItemType i in items) {
+                        if (ev.Pickup.Type == i) {
+                            ev.IsAllowed = false;
+                            return;
+                        }
+                    }
+                }
+            }
+            ev.IsAllowed = true;
         }
     }
 }

@@ -135,8 +135,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\DisablePickUps.cs" />
     <Compile Include="Commands\DoorBreaking.cs" />
     <Compile Include="Commands\InfAmmoInGun.cs" />
+    <Compile Include="Commands\LocateDroppedItem.cs" />
     <Compile Include="Commands\LockDoors.cs" />
     <Compile Include="Commands\SpawnWithEffects.cs" />
     <Compile Include="Commands\SpawnWithItems.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="Commands\WindowsBreaking.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Commands\InfAmmo.cs" />
+    <Compile Include="Extentions.cs" />
     <Compile Include="Handlers\Player.cs" />
     <Compile Include="Handlers\Server.cs" />
     <Compile Include="Plugin.cs" />

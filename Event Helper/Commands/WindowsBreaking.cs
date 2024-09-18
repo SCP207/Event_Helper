@@ -9,7 +9,7 @@ namespace Event_Give_Items.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class BreakWindows : ICommand {
         public string Command { get; } = "windowsbreaking";
-        public string[] Aliases { get; } = { "wb", "indestructablewindows", "iw" };
+        public string[] Aliases { get; } = { "indestructablewindows", "iw" };
         public string Description { get; } = "Disallows windows to break";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
@@ -29,7 +29,7 @@ namespace Event_Give_Items.Commands {
             foreach (Window w in windows) {
                 if (!Plugin.doWindowsBreak) {
                     Plugin.windowHealthList.Add(w, w.Health);
-                    w.Health = 99999;
+                    w.Health = int.MaxValue;
                 } else {
                     float health;
                     Plugin.windowHealthList.TryGetValue(w, out health);

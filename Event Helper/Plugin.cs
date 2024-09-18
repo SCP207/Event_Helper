@@ -8,16 +8,12 @@ using ServerHandlers = Exiled.Events.Handlers.Server;
 namespace Event_Helper {
     public class Plugin : Plugin<Config> {
         public override string Author { get; } = "SCP-207";
-
         public override string Name { get; } = "Event Helpers";
-
         public override string Prefix { get; } = "EH";
-
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-
         public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
-
-        public override Version Version { get; } = new Version(3, 0, 1);
+        public override Version Version { get; } = new Version(3, 1, 0);
+        public static Config config = new Config();
 
         public static bool isInfAmmoEnabled = false;
 
@@ -29,7 +25,7 @@ namespace Event_Helper {
         public static int itemsBeingGiven;
 
         public static bool areEffectsBeingGivenOnSpawn = false;
-        public static List<string> effectNames;
+        public static List<string> effectNames = new List<string>();
         public static int effectDuration;
         public static byte effectIntensity;
         public static byte effectIntensityAdditionOverTime;
@@ -45,6 +41,8 @@ namespace Event_Helper {
         public static Dictionary<Window, float> windowHealthList { get; } = new Dictionary<Window, float>();
 
         public static List<Player> lockDoors { get; } = new List<Player>();
+
+        public static Dictionary<Player, List<ItemType>> itemUnableToPickUp { get; } = new Dictionary<Player, List<ItemType>>();
 
         private Handlers.Player player;
         private Handlers.Server server;
@@ -62,6 +60,8 @@ namespace Event_Helper {
         }
 
         private void RegisterCommands() {
+            config = this.Config;
+
             player = new Handlers.Player();
             server = new Handlers.Server();
 
@@ -73,6 +73,9 @@ namespace Event_Helper {
             PlayerHandlers.DamagingDoor += player.OnDoorDamage;
             PlayerHandlers.PlayerDamageWindow += player.OnWindowDamage;
             PlayerHandlers.InteractingDoor += player.OnDoorInteract;
+            PlayerHandlers.Dying += player.OnPlayerDeath;
+            PlayerHandlers.Handcuffing += player.OnPlayerDetained;
+            PlayerHandlers.PickingUpItem += player.OnPickUpItem;
 
             ServerHandlers.RespawningTeam += server.OnWaveSpawn;
         }
@@ -86,11 +89,16 @@ namespace Event_Helper {
             PlayerHandlers.DamagingDoor -= player.OnDoorDamage;
             PlayerHandlers.PlayerDamageWindow -= player.OnWindowDamage;
             PlayerHandlers.InteractingDoor -= player.OnDoorInteract;
+            PlayerHandlers.Dying -= player.OnPlayerDeath;
+            PlayerHandlers.Handcuffing -= player.OnPlayerDetained;
+            PlayerHandlers.PickingUpItem -= player.OnPickUpItem;
 
             ServerHandlers.RespawningTeam -= server.OnWaveSpawn;
 
             player = null;
             server = null;
+
+            config = null;
         }
     }
 }

@@ -8,5 +8,14 @@ namespace Event_Helper {
 
         [Description("Is debug mode enabled?")]
         public bool Debug { get; set; } = false;
+
+        [Description("Do Tesla Gates vaporize")]
+        public bool TeslaVaporize { get; set; } = false;
+
+        [Description("Can players with God Mode get detained")]
+        public bool GodModePlayersGetDetained { get; set; } = false;
+
+        [Description("Can players with Bypass get detained")]
+        public bool BypassPlayersGetDetained { get; set; } = false;
     }
 }
