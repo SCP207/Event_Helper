@@ -31,12 +31,6 @@ namespace Event_Give_Items.Commands {
                 response = "You have too many or too little arguments\nUsage: disablepickups [Add / Remove] [Item ID] [%player%]";
                 return false;
             }
-            /**
-            if (!int.TryParse(arguments.At(1), out itemId) && (arguments.At(1) != "*" || arguments.At(1) != "all")) {
-                response = $"Invalid value: {arguments.At(0)}";
-                return false;
-            }
-            **/
 
             string isAdded = "added to";
             if (arguments.At(0) == "remove") {
