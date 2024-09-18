@@ -21,6 +21,10 @@ This plugin provides 10 useful commands for events:
 
 10. Allows people to lock any door (like bypass)
 
+11. Allows you to locate the amount of a dropped items
+
+12. Allows you to prevent people from picking up specific items
+
 ## Permissions:
 **Note:** They may repeat, but the numbers corrospond to the command
 
@@ -43,3 +47,7 @@ This plugin provides 10 useful commands for events:
 9. eh.breakable
 
 10. eh.lockdoors
+
+11. eh.locateitems
+
+12. eh.pickups
