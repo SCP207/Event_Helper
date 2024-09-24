@@ -2,8 +2,9 @@
 using System;
 using Exiled.Permissions.Extensions;
 using Event_Helper;
+using Exiled.Events.Handlers;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class SpawnWithItems : ICommand, IUsageProvider {
         private int itemID, itemIDMax = 54, itemIDMin = 0;
@@ -37,7 +38,7 @@ namespace Event_Give_Items.Commands {
                 response = $"Done! Players won't be given items when they spawn";
             } else if (itemID >= itemIDMin || itemID <= itemIDMax) {
                 Plugin.areItemsBeingGivenOnWave = true;
-                Plugin.itemsBeingGiven = itemID;
+                Plugin.itemsBeingGiven = (ItemType)itemID;
                 response = $"Done! Every spawn wave will give item {itemID}";
             } else {
                 response = $"Invalid value: {arguments.At(0)}\nMust be between -1 and 54";

@@ -4,7 +4,7 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class BreakDoors : ICommand {
         public string Command { get; } = "doorsbreaking";

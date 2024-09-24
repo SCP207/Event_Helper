@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class LockDoors : ICommand, IUsageProvider {
         public string Command { get; } = "lockdoors";

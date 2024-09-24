@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Event_Give_Items {
+namespace Event_Helper {
     public static class Extensions {
         public static string FormatArguments(this ArraySegment<string> sentence, int index) {
             StringBuilder sb = new StringBuilder();

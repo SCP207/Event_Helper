@@ -4,7 +4,7 @@ using Exiled.Permissions.Extensions;
 using Exiled.API.Features;
 using Event_Helper;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class StopTeslas : ICommand {
         public string Command { get; } = "stopteslas";

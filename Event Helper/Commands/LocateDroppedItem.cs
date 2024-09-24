@@ -6,7 +6,7 @@ using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class AmountOfDroppedItems : ICommand, IUsageProvider {
         int itemId, amount;

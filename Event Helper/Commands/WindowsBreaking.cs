@@ -5,7 +5,7 @@ using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class BreakWindows : ICommand {
         public string Command { get; } = "windowsbreaking";
@@ -29,10 +29,9 @@ namespace Event_Give_Items.Commands {
             foreach (Window w in windows) {
                 if (!Plugin.doWindowsBreak) {
                     Plugin.windowHealthList.Add(w, w.Health);
-                    w.Health = int.MaxValue;
+                    w.Health = float.PositiveInfinity;
                 } else {
-                    float health;
-                    Plugin.windowHealthList.TryGetValue(w, out health);
+                    Plugin.windowHealthList.TryGetValue(w, out var health);
                     w.Health = health;
                 }
             }

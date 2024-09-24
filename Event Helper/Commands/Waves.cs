@@ -3,7 +3,7 @@ using System;
 using Exiled.Permissions.Extensions;
 using Event_Helper;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Waves : ICommand {
         public string Command { get; } = "wavesenabled";

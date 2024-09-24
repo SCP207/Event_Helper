@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static PlayerRoles.Spectating.SpectatableModuleBase;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class DisablePickUps : ICommand, IUsageProvider {
         public string Command { get; } = "disablepickups";

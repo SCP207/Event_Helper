@@ -4,7 +4,7 @@ using Exiled.Permissions.Extensions;
 using Exiled.API.Features;
 using Event_Helper;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class SpawnWithNoItems : ICommand, IUsageProvider {
         private bool onlyClassD;
@@ -36,6 +36,9 @@ namespace Event_Give_Items.Commands {
                 Plugin.doPlayersSpawnWithItems = false;
             } else {
                 Plugin.doPlayersSpawnWithItems = !Plugin.doPlayersSpawnWithItems;
+            }
+            if (!Plugin.doPlayersSpawnWithItems) {
+                Plugin.doPlayersSpawnWithItems = true;
             }
             Plugin.affectsOnlyClassD = onlyClassD;
 

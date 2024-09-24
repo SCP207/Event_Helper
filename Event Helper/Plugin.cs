@@ -11,9 +11,9 @@ namespace Event_Helper {
         public override string Name { get; } = "Event Helpers";
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public override Version RequiredExiledVersion { get; } = new Version(8, 7, 2);
+        public override Version RequiredExiledVersion { get; } = new Version(8, 11, 0);
         public override Version Version { get; } = new Version(3, 1, 0);
-        public static Config config = new Config();
+        public static Config config { get; private set; } = new Config();
 
         public static bool isInfAmmoEnabled = false;
 
@@ -22,10 +22,10 @@ namespace Event_Helper {
         public static bool areSpawnWavesEnabled = true;
 
         public static bool areItemsBeingGivenOnWave = false;
-        public static int itemsBeingGiven;
+        public static ItemType itemsBeingGiven;
 
         public static bool areEffectsBeingGivenOnSpawn = false;
-        public static List<string> effectNames = new List<string>();
+        public static List<string> effectNames { get; } = new List<string>();
         public static int effectDuration;
         public static byte effectIntensity;
         public static byte effectIntensityAdditionOverTime;
@@ -77,7 +77,8 @@ namespace Event_Helper {
             PlayerHandlers.Handcuffing += player.OnPlayerDetained;
             PlayerHandlers.PickingUpItem += player.OnPickUpItem;
 
-            ServerHandlers.RespawningTeam += server.OnWaveSpawn;
+            ServerHandlers.RespawningTeam += server.OnWaveSpawning;
+            ServerHandlers.RespawnedTeam += server.OnWaveSpawn;
         }
 
         private void UnregisterCommands() {
@@ -93,7 +94,8 @@ namespace Event_Helper {
             PlayerHandlers.Handcuffing -= player.OnPlayerDetained;
             PlayerHandlers.PickingUpItem -= player.OnPickUpItem;
 
-            ServerHandlers.RespawningTeam -= server.OnWaveSpawn;
+            ServerHandlers.RespawningTeam -= server.OnWaveSpawning;
+            ServerHandlers.RespawnedTeam -= server.OnWaveSpawn;
 
             player = null;
             server = null;
