@@ -12,7 +12,7 @@ namespace Event_Helper {
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
         public override Version RequiredExiledVersion { get; } = new Version(8, 11, 0);
-        public override Version Version { get; } = new Version(3, 1, 0);
+        public override Version Version { get; } = new Version(3, 2, 0);
         public static Config config { get; private set; } = new Config();
 
         public static bool isInfAmmoEnabled = false;
