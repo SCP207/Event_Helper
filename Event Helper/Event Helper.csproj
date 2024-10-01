@@ -137,9 +137,11 @@
   <ItemGroup>
     <Compile Include="Commands\DisablePickUps.cs" />
     <Compile Include="Commands\DoorBreaking.cs" />
+    <Compile Include="Commands\GetCommands.cs" />
     <Compile Include="Commands\InfAmmoInGun.cs" />
     <Compile Include="Commands\LocateDroppedItem.cs" />
     <Compile Include="Commands\LockDoors.cs" />
+    <Compile Include="Commands\ResetCommands.cs" />
     <Compile Include="Commands\SpawnWithEffects.cs" />
     <Compile Include="Commands\SpawnWithItems.cs" />
     <Compile Include="Commands\SpawnWithNoItems.cs" />

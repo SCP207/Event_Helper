@@ -1,5 +1,5 @@
 # Event_Helper_SL_EXILED
-This plugin provides 10 useful commands for events:
+This plugin provides 13 useful commands for events (use `ehhelp` to see the list of commands):
 
 1. infinite ammo
 
@@ -24,6 +24,8 @@ This plugin provides 10 useful commands for events:
 11. Allows you to locate the amount of a dropped items
 
 12. Allows you to prevent people from picking up specific items
+
+13. Allows you to reset all commands in the plugin to their default states
 
 ## Permissions:
 **Note:** They may repeat, but the numbers corrospond to the command
@@ -51,3 +53,5 @@ This plugin provides 10 useful commands for events:
 11. eh.locateitems
 
 12. eh.pickups
+
+13. eh.resetcommands

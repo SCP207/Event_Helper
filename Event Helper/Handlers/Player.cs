@@ -1,4 +1,6 @@
 ﻿using Exiled.API.Enums;
+using Exiled.API.Features.Items;
+using Exiled.Events.EventArgs.Item;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
 
@@ -8,6 +10,13 @@ namespace Event_Helper.Handlers {
             // Checks if players should have infinite ammo without reloading
             if (Plugin.isInfInGunAmmoEnabled) {
                 ev.Firearm.Ammo = ev.Firearm.MaxAmmo;
+            } else if (Plugin.isInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
+                ev.Firearm.Ammo++;
+            }
+        }
+        public void OnJailbirdUse(ChargingJailbirdEventArgs ev) {
+            if (Plugin.isInfInGunAmmoEnabled) {
+                ev.Jailbird.TotalCharges--;
             }
         }
 
