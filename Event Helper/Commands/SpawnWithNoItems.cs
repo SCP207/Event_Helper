@@ -37,9 +37,6 @@ namespace Event_Helper.Commands {
             } else {
                 Plugin.doPlayersSpawnWithItems = !Plugin.doPlayersSpawnWithItems;
             }
-            if (!Plugin.doPlayersSpawnWithItems) {
-                Plugin.doPlayersSpawnWithItems = true;
-            }
             Plugin.affectsOnlyClassD = onlyClassD;
 
             string onlyClassDS = "doesn't only affect class D";
@@ -47,7 +44,7 @@ namespace Event_Helper.Commands {
                 onlyClassDS = "only affects class D";
             }
 
-            Log.Debug($"Spawning with items is set to {Plugin.doPlayersSpawnWithItems}and {onlyClassDS}");
+            Log.Debug($"Spawning with items is set to {Plugin.doPlayersSpawnWithItems} and {onlyClassDS}");
             response = $"Done! Spawning with items is now {Plugin.doPlayersSpawnWithItems} and {onlyClassDS}";
             return true;
         }

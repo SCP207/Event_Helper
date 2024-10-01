@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using PlayerHandlers = Exiled.Events.Handlers.Player;
+using ItemHandlers = Exiled.Events.Handlers.Item;
 using ServerHandlers = Exiled.Events.Handlers.Server;
 
 namespace Event_Helper {
@@ -12,8 +13,10 @@ namespace Event_Helper {
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
         public override Version RequiredExiledVersion { get; } = new Version(8, 11, 0);
-        public override Version Version { get; } = new Version(3, 2, 0);
+        public override Version Version { get; } = new Version(3, 3, 1);
         public static Config config { get; private set; } = new Config();
+
+        public static List<string> commandList = new List<string>();
 
         public static bool isInfAmmoEnabled = false;
 
@@ -49,12 +52,14 @@ namespace Event_Helper {
 
         public override void OnEnabled() {
             RegisterCommands();
+            GetCommands(true);
 
             base.OnEnabled();
         }
 
         public override void OnDisabled() {
             UnregisterCommands();
+            GetCommands(false);
 
             base.OnDisabled();
         }
@@ -65,6 +70,7 @@ namespace Event_Helper {
             player = new Handlers.Player();
             server = new Handlers.Server();
 
+            ItemHandlers.ChargingJailbird += player.OnJailbirdUse;
             PlayerHandlers.Shot += player.OnWeaponFire;
             PlayerHandlers.ReloadingWeapon += player.OnWeaponReload;
             PlayerHandlers.DroppingAmmo += player.OnAmmoDrop;
@@ -82,6 +88,7 @@ namespace Event_Helper {
         }
 
         private void UnregisterCommands() {
+            ItemHandlers.ChargingJailbird -= player.OnJailbirdUse;
             PlayerHandlers.Shot -= player.OnWeaponFire;
             PlayerHandlers.ReloadingWeapon -= player.OnWeaponReload;
             PlayerHandlers.DroppingAmmo -= player.OnAmmoDrop;
@@ -101,6 +108,53 @@ namespace Event_Helper {
             server = null;
 
             config = null;
+        }
+
+        private void GetCommands(bool enabled) {
+            commandList = new List<string>();
+
+            if (enabled) {
+                commandList.Add("amountofdroppeditems");
+                commandList.Add("disablepickups");
+                commandList.Add("doorsbreaking");
+                commandList.Add("ehreset");
+                commandList.Add("giveeffectonspawn");
+                commandList.Add("giveitemonwave");
+                commandList.Add("infammo");
+                commandList.Add("infammoingun");
+                commandList.Add("lockdoors");
+                commandList.Add("spawningwithitem");
+                commandList.Add("stopteslas");
+                commandList.Add("wavesenabled");
+                commandList.Add("windowsbreaking");
+            }
+        }
+
+        public static void ResetCommands() {
+            isInfAmmoEnabled = false;
+
+            isInfInGunAmmoEnabled = false;
+
+            areSpawnWavesEnabled = true;
+
+            areItemsBeingGivenOnWave = false;
+
+            areEffectsBeingGivenOnSpawn = false;
+            effectNames.Clear();
+
+            areTeslasTriggering = true;
+
+            doPlayersSpawnWithItems = true;
+            affectsOnlyClassD = false;
+
+            doDoorsBreak = true;
+
+            doWindowsBreak = true;
+            windowHealthList.Clear();
+
+            lockDoors.Clear();
+
+            itemUnableToPickUp.Clear();
         }
     }
 }
