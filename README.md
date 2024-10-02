@@ -48,7 +48,7 @@ This plugin provides 13 useful commands for events (use `ehhelp` to see the list
 
 9. eh.breakable
 
-10. eh.lockdoors
+10. eh.lockingdoors
 
 11. eh.locateitems
 

@@ -11,13 +11,13 @@ using System.Linq;
 namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class LockDoors : ICommand, IUsageProvider {
-        public string Command { get; } = "lockdoors";
+        public string Command { get; } = "lockingdoors";
         public string[] Aliases { get; } = { "doorlocking", "dl" };
         public string Description { get; } = "Like bypass, but allows a player to lock a door";
         public string[] Usage { get; } = { "Add / Remove", "%player%"};
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.lockdoors")) {
+            if (!sender.CheckPermission("eh.lockingdoors")) {
                 response = "You don't have permission to run this command";
                 return false;
             }

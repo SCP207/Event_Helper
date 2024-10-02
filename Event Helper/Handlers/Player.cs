@@ -32,7 +32,6 @@ namespace Event_Helper.Handlers {
                 ev.IsAllowed = false;
                 return;
             }
-            ev.IsAllowed = true;
         }
 
         public void OnSpawn(SpawnedEventArgs ev) {
@@ -61,26 +60,20 @@ namespace Event_Helper.Handlers {
             // Checks if teslas should be triggered
             if (!Plugin.areTeslasTriggering) {
                 ev.IsTriggerable = false;
-                return;
             }
-            ev.IsTriggerable = true;
         }
 
         public void OnDoorDamage(DamagingDoorEventArgs ev) {
             // Checks if doors should break
             if (!Plugin.doDoorsBreak) {
                 ev.IsAllowed = false;
-                return;
             }
-            ev.IsAllowed = true;
         }
         public void OnWindowDamage(DamagingWindowEventArgs ev) {
             // Checks if windows should break
             if (!Plugin.doWindowsBreak) {
                 ev.IsAllowed = false;
-                return;
             }
-            ev.IsAllowed = true;
         }
 
         public void OnDoorInteract(InteractingDoorEventArgs ev) {
@@ -106,8 +99,6 @@ namespace Event_Helper.Handlers {
         }
 
         public void OnPlayerDetained(HandcuffingEventArgs ev) {
-            ev.IsAllowed = true;
-
             if (!Plugin.config.GodModePlayersGetDetained) {
                 if (ev.Target.IsGodModeEnabled) {
                     ev.IsAllowed = false;
@@ -127,12 +118,10 @@ namespace Event_Helper.Handlers {
                     foreach (ItemType i in items) {
                         if (ev.Pickup.Type == i) {
                             ev.IsAllowed = false;
-                            return;
                         }
                     }
                 }
             }
-            ev.IsAllowed = true;
         }
     }
 }

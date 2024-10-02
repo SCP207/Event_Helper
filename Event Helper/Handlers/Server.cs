@@ -15,9 +15,7 @@ namespace Event_Helper.Handlers {
                 ev.IsAllowed = false;
                 return;
             }
-
             Log.Debug("Spawn waves are enabled from the command \"wavesenabled\"");
-            ev.IsAllowed = true;
         }
         public void OnWaveSpawn(RespawnedTeamEventArgs ev) {
             // Checks if an item should be given, then gives and force equips the item

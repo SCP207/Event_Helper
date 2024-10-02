@@ -13,7 +13,7 @@ namespace Event_Helper {
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
         public override Version RequiredExiledVersion { get; } = new Version(8, 11, 0);
-        public override Version Version { get; } = new Version(3, 3, 1);
+        public override Version Version { get; } = new Version(3, 3, 2);
         public static Config config { get; private set; } = new Config();
 
         public static List<string> commandList = new List<string>();
@@ -122,7 +122,7 @@ namespace Event_Helper {
                 commandList.Add("giveitemonwave");
                 commandList.Add("infammo");
                 commandList.Add("infammoingun");
-                commandList.Add("lockdoors");
+                commandList.Add("lockingdoors");
                 commandList.Add("spawningwithitem");
                 commandList.Add("stopteslas");
                 commandList.Add("wavesenabled");
