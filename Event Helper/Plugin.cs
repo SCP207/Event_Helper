@@ -13,7 +13,7 @@ namespace Event_Helper {
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
         public override Version RequiredExiledVersion { get; } = new Version(8, 11, 0);
-        public override Version Version { get; } = new Version(3, 3, 2);
+        public override Version Version { get; } = new Version(3, 3, 3);
 
         public static List<string> commandList { get; private set; } = new List<string>();
 
