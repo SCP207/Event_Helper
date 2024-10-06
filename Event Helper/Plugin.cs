@@ -14,9 +14,8 @@ namespace Event_Helper {
         public override PluginPriority Priority { get; } = PluginPriority.Default;
         public override Version RequiredExiledVersion { get; } = new Version(8, 11, 0);
         public override Version Version { get; } = new Version(3, 3, 2);
-        public static Config config { get; private set; } = new Config();
 
-        public static List<string> commandList = new List<string>();
+        public static List<string> commandList { get; private set; } = new List<string>();
 
         public static bool isInfAmmoEnabled = false;
 
@@ -31,7 +30,7 @@ namespace Event_Helper {
         public static List<string> effectNames { get; } = new List<string>();
         public static int effectDuration;
         public static byte effectIntensity;
-        public static byte effectIntensityAdditionOverTime;
+        public static Dictionary<string, byte> effectIntensityAdditionOverTime = new Dictionary<string, byte>();
 
         public static bool areTeslasTriggering = true;
 
@@ -65,9 +64,7 @@ namespace Event_Helper {
         }
 
         private void RegisterCommands() {
-            config = this.Config;
-
-            player = new Handlers.Player();
+            player = new Handlers.Player(this);
             server = new Handlers.Server();
 
             ItemHandlers.ChargingJailbird += player.OnJailbirdUse;
@@ -85,6 +82,7 @@ namespace Event_Helper {
 
             ServerHandlers.RespawningTeam += server.OnWaveSpawning;
             ServerHandlers.RespawnedTeam += server.OnWaveSpawn;
+            ServerHandlers.RoundEnded += server.OnRoundEnd;
         }
 
         private void UnregisterCommands() {
@@ -103,11 +101,10 @@ namespace Event_Helper {
 
             ServerHandlers.RespawningTeam -= server.OnWaveSpawning;
             ServerHandlers.RespawnedTeam -= server.OnWaveSpawn;
+            ServerHandlers.RoundEnded -= server.OnRoundEnd;
 
             player = null;
             server = null;
-
-            config = null;
         }
 
         private void GetCommands(bool enabled) {

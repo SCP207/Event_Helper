@@ -6,6 +6,12 @@ using PlayerRoles;
 
 namespace Event_Helper.Handlers {
     public class Player {
+        private Plugin plugin = new Plugin();
+
+        public Player(Plugin main) {
+            plugin = main;
+        }
+
         public void OnWeaponFire(ShotEventArgs ev) {
             // Checks if players should have infinite ammo without reloading
             if (Plugin.isInfInGunAmmoEnabled) {
@@ -91,7 +97,7 @@ namespace Event_Helper.Handlers {
         }
 
         public void OnPlayerDeath(DyingEventArgs ev) {
-            if (Plugin.config.TeslaVaporize) {
+            if (plugin.Config.TeslaVaporize) {
                 if (ev.DamageHandler.Type == DamageType.Tesla) {
                     ev.Player.Vaporize();
                 }
@@ -99,12 +105,12 @@ namespace Event_Helper.Handlers {
         }
 
         public void OnPlayerDetained(HandcuffingEventArgs ev) {
-            if (!Plugin.config.GodModePlayersGetDetained) {
+            if (!plugin.Config.GodModePlayersGetDetained) {
                 if (ev.Target.IsGodModeEnabled) {
                     ev.IsAllowed = false;
                 }
             }
-            if (!Plugin.config.BypassPlayersGetDetained) {
+            if (!plugin.Config.BypassPlayersGetDetained) {
                 if (ev.Target.IsBypassModeEnabled) {
                     ev.IsAllowed = false;
                 }

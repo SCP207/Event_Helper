@@ -52,7 +52,7 @@ namespace Event_Helper.Commands {
             Plugin.effectNames.Add(effect);
             Plugin.effectDuration = duration;
             Plugin.effectIntensity = intensity;
-            Plugin.effectIntensityAdditionOverTime = additionOverTime;
+            Plugin.effectIntensityAdditionOverTime.Add(effect, additionOverTime);
 
             response = $"Done! Every spawn wave will give the effect {effect} for {duration} seconds with intensity {intensity}";
             return true;

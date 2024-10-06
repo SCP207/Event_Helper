@@ -45,12 +45,21 @@ namespace Event_Helper.Handlers {
                 }
 
                 // Adds the "effectIntensityAdditionOverTime" value to the intensity
-                if (Plugin.effectIntensity + Plugin.effectIntensityAdditionOverTime <= 255) {
-                    Plugin.effectIntensity += Plugin.effectIntensityAdditionOverTime;
-                } else {
-                    Plugin.effectIntensity = 255;
+                foreach (string effect in Plugin.effectIntensityAdditionOverTime.Keys) {
+                    Plugin.effectIntensityAdditionOverTime.TryGetValue(effect, out byte addition);
+                    if (Plugin.effectIntensity + addition >= 255) {
+                        Plugin.effectIntensity = 255;
+                    } else if (Plugin.effectIntensity + addition <= 0) {
+                        Plugin.effectIntensity = 0;
+                    } else {
+                        Plugin.effectIntensity += addition;
+                    }
                 }
             }
+        }
+
+        public void OnRoundEnd(RoundEndedEventArgs ev) {
+            Plugin.ResetCommands();
         }
     }
 }
