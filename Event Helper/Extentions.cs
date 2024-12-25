@@ -7,7 +7,7 @@ using System.Text;
 namespace Event_Helper {
     public static class Extensions {
         public static string FormatArguments(this ArraySegment<string> sentence, int index) {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach (string word in sentence.Segment(index)) {
                 sb.Append(word);
                 sb.Append(" ");

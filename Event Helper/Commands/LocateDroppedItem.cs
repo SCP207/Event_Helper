@@ -13,7 +13,7 @@ namespace Event_Helper.Commands {
 
         public string Command { get; } = "amountofdroppeditems";
         public string[] Aliases { get; } = { "aodi", "adi", "locateitems", "locatepickup", "lp" };
-        public string Description { get; } = "Like bypass, but allows a player to lock a door";
+        public string Description { get; } = "Locates all dropped items of a specific type";
         public string[] Usage { get; } = { "Item ID" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {

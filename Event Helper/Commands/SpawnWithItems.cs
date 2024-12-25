@@ -7,7 +7,7 @@ using Exiled.Events.Handlers;
 namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class SpawnWithItems : ICommand, IUsageProvider {
-        private int itemID, itemIDMax = 54, itemIDMin = 0;
+        private int itemID, itemIDMax = 59, itemIDMin = 0;
 
         public string Command { get; } = "giveitemonwave";
         public string[] Aliases { get; } = { "gis", "spawngive", "giveitemonspawn" };
@@ -39,7 +39,7 @@ namespace Event_Helper.Commands {
             } else if (itemID >= itemIDMin || itemID <= itemIDMax) {
                 Plugin.areItemsBeingGivenOnWave = true;
                 Plugin.itemsBeingGiven = (ItemType)itemID;
-                response = $"Done! Every spawn wave will give item {itemID}";
+                response = $"Done! Every spawn wave will give item {(ItemType)itemID}";
             } else {
                 response = $"Invalid value: {arguments.At(0)}\nMust be between -1 and 54";
                 return false;

@@ -25,7 +25,7 @@ namespace Event_Helper.Commands {
             Plugin.doWindowsBreak = !Plugin.doWindowsBreak;
 
             IEnumerable<Window> windows = Window.List;
-            if (!Plugin.doWindowsBreak) { Plugin.windowHealthList.Clear(); }
+            if (!Plugin.doWindowsBreak) Plugin.windowHealthList.Clear();
             foreach (Window w in windows) {
                 if (!Plugin.doWindowsBreak) {
                     Plugin.windowHealthList.Add(w, w.Health);

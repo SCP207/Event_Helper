@@ -37,15 +37,6 @@ namespace Event_Helper.Commands {
                 isAdded = "removed from";
             }
 
-            IEnumerable<Player> players;
-            if (arguments.At(1) == "*" || arguments.At(1) == "all") {
-                players = Player.Dictionary.Values;
-                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: All";
-            } else {
-                players = Player.GetProcessedData(arguments, 2);
-                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: {Extensions.LogPlayers(players)}";
-            }
-
             List<ItemType> items = new List<ItemType>();
             if (arguments.At(1) == "*" || arguments.At(1) == "all") {
                 for (int index = 0; index <= 54; index++) {
@@ -62,17 +53,26 @@ namespace Event_Helper.Commands {
                 }
             }
 
-            foreach (Player p in players) {
-                List<ItemType> itemsList = new List<ItemType>();
-                foreach (ItemType i in items) {
-                    if (arguments.At(0) == "add") {
-                        if (Plugin.itemUnableToPickUp.ContainsKey(p)) {
-                            Plugin.itemUnableToPickUp.TryGetValue(p, out itemsList);
-                        }
-                        if (!itemsList.Contains(i)) {
-                            itemsList.Add(i);
+            IEnumerable<Player> players;
+            if (arguments.At(2) == "*" || arguments.At(2) == "all") {
+                players = Player.Dictionary.Values;
+                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: All";
+            } else {
+                players = Player.GetProcessedData(arguments, 2);
+                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: {Extensions.LogPlayers(players)}";
+            }
 
-                            List<Item> playerItems = new List<Item>(p.Items);
+            foreach (ItemType i in items) {
+                List<Player> playerList = new();
+                foreach (Player p in players) {
+                    if (arguments.At(0) == "add") {
+                        if (Plugin.itemUnableToPickUp.ContainsKey(i)) {
+                            Plugin.itemUnableToPickUp.TryGetValue(i, out playerList);
+                        }
+                        if (!playerList.Contains(p)) {
+                            playerList.Add(p);
+
+                            List<Item> playerItems = new(p.Items);
                             foreach (Item item in playerItems) {
                                 if (item.Type == i) {
                                     p.DropItem(item);
@@ -80,17 +80,19 @@ namespace Event_Helper.Commands {
                             }
                         }
                     } else if (arguments.At(0) == "remove") {
-                        if (Plugin.itemUnableToPickUp.ContainsKey(p)) {
-                            Plugin.itemUnableToPickUp.TryGetValue(p, out itemsList);
-                            itemsList.Remove(i);
+                        if (Plugin.itemUnableToPickUp.ContainsKey(i)) {
+                            Plugin.itemUnableToPickUp.TryGetValue(i, out playerList);
+                            playerList.Remove(p);
                         }
                     } else {
                         response = $"Invalid value: {arguments.At(0)}";
                         return false;
                     }
                 }
-                Plugin.itemUnableToPickUp.Remove(p);
-                Plugin.itemUnableToPickUp.Add(p, itemsList);
+
+                Plugin.itemUnableToPickUp.Remove(i);
+                if (playerList.Count != 0)
+                    Plugin.itemUnableToPickUp.Add(i, playerList);
             }
 
             Log.Debug($"Players can no longer pick up items\nPlayers: {Extensions.LogPlayers(players)}");

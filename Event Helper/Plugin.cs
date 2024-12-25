@@ -9,13 +9,13 @@ using ServerHandlers = Exiled.Events.Handlers.Server;
 namespace Event_Helper {
     public class Plugin : Plugin<Config> {
         public override string Author { get; } = "SCP-207";
-        public override string Name { get; } = "Event Helpers";
+        public override string Name { get; } = "Event Helper";
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public override Version RequiredExiledVersion { get; } = new Version(8, 11, 0);
-        public override Version Version { get; } = new Version(3, 3, 3);
+        public override Version RequiredExiledVersion { get; } = new(9, 0, 1);
+        public override Version Version { get; } = new(3, 4, 0);
 
-        public static List<string> commandList { get; private set; } = new List<string>();
+        public static List<string> commandList { get; private set; } = new();
 
         public static bool isInfAmmoEnabled = false;
 
@@ -27,10 +27,10 @@ namespace Event_Helper {
         public static ItemType itemsBeingGiven;
 
         public static bool areEffectsBeingGivenOnSpawn = false;
-        public static List<string> effectNames { get; } = new List<string>();
+        public static List<string> effectNames { get; } = new();
         public static int effectDuration;
         public static byte effectIntensity;
-        public static Dictionary<string, byte> effectIntensityAdditionOverTime = new Dictionary<string, byte>();
+        public static Dictionary<string, byte> effectIntensityAdditionOverTime = new();
 
         public static bool areTeslasTriggering = true;
 
@@ -40,11 +40,11 @@ namespace Event_Helper {
         public static bool doDoorsBreak = true;
 
         public static bool doWindowsBreak = true;
-        public static Dictionary<Window, float> windowHealthList { get; } = new Dictionary<Window, float>();
+        public static Dictionary<Window, float> windowHealthList { get; } = new();
 
-        public static List<Player> lockDoors { get; } = new List<Player>();
+        public static List<Player> lockDoors { get; } = new();
 
-        public static Dictionary<Player, List<ItemType>> itemUnableToPickUp { get; } = new Dictionary<Player, List<ItemType>>();
+        public static Dictionary<ItemType, List<Player>> itemUnableToPickUp { get; } = new();
 
         private Handlers.Player player;
         private Handlers.Server server;
@@ -64,17 +64,18 @@ namespace Event_Helper {
         }
 
         private void RegisterCommands() {
-            player = new Handlers.Player(this);
-            server = new Handlers.Server();
+            player = new(this);
+            server = new();
 
             ItemHandlers.ChargingJailbird += player.OnJailbirdUse;
+            PlayerHandlers.UsingMicroHIDEnergy += player.OnMicroEnergyDrain;
             PlayerHandlers.Shot += player.OnWeaponFire;
-            PlayerHandlers.ReloadingWeapon += player.OnWeaponReload;
+            PlayerHandlers.DryfiringWeapon += player.OnWeaponDryFire;
             PlayerHandlers.DroppingAmmo += player.OnAmmoDrop;
             PlayerHandlers.Spawned += player.OnSpawn;
             PlayerHandlers.TriggeringTesla += player.OnTeslaGateActivate;
             PlayerHandlers.DamagingDoor += player.OnDoorDamage;
-            PlayerHandlers.PlayerDamageWindow += player.OnWindowDamage;
+            PlayerHandlers.DamagingWindow += player.OnWindowDamage;
             PlayerHandlers.InteractingDoor += player.OnDoorInteract;
             PlayerHandlers.Dying += player.OnPlayerDeath;
             PlayerHandlers.Handcuffing += player.OnPlayerDetained;
@@ -87,13 +88,14 @@ namespace Event_Helper {
 
         private void UnregisterCommands() {
             ItemHandlers.ChargingJailbird -= player.OnJailbirdUse;
+            PlayerHandlers.UsingMicroHIDEnergy -= player.OnMicroEnergyDrain;
             PlayerHandlers.Shot -= player.OnWeaponFire;
-            PlayerHandlers.ReloadingWeapon -= player.OnWeaponReload;
+            PlayerHandlers.DryfiringWeapon -= player.OnWeaponDryFire;
             PlayerHandlers.DroppingAmmo -= player.OnAmmoDrop;
             PlayerHandlers.Spawned -= player.OnSpawn;
             PlayerHandlers.TriggeringTesla -= player.OnTeslaGateActivate;
             PlayerHandlers.DamagingDoor -= player.OnDoorDamage;
-            PlayerHandlers.PlayerDamageWindow -= player.OnWindowDamage;
+            PlayerHandlers.DamagingWindow -= player.OnWindowDamage;
             PlayerHandlers.InteractingDoor -= player.OnDoorInteract;
             PlayerHandlers.Dying -= player.OnPlayerDeath;
             PlayerHandlers.Handcuffing -= player.OnPlayerDetained;
@@ -108,7 +110,7 @@ namespace Event_Helper {
         }
 
         private void GetCommands(bool enabled) {
-            commandList = new List<string>();
+            commandList = new();
 
             if (enabled) {
                 commandList.Add("amountofdroppeditems");

@@ -2,6 +2,7 @@
 using System;
 using Exiled.Permissions.Extensions;
 using Event_Helper;
+using Exiled.API.Features.Waves;
 
 namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -21,6 +22,14 @@ namespace Event_Helper.Commands {
             }
 
             Plugin.areSpawnWavesEnabled = !Plugin.areSpawnWavesEnabled;
+            var waves = WaveTimer.GetWaveTimers();
+            foreach (var w in waves) {
+                if (!w.IsPaused) {
+                    w.Pause(float.PositiveInfinity);
+                } else {
+                    w.Pause(float.NegativeInfinity);
+                }
+            }
 
             string spawnWaves = "disabled";
             if (Plugin.areSpawnWavesEnabled) {

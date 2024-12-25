@@ -1,4 +1,5 @@
 ﻿using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Item;
 using Exiled.Events.EventArgs.Player;
@@ -6,7 +7,7 @@ using PlayerRoles;
 
 namespace Event_Helper.Handlers {
     public class Player {
-        private Plugin plugin = new Plugin();
+        private Plugin plugin = new();
 
         public Player(Plugin main) {
             plugin = main;
@@ -15,23 +16,41 @@ namespace Event_Helper.Handlers {
         public void OnWeaponFire(ShotEventArgs ev) {
             // Checks if players should have infinite ammo without reloading
             if (Plugin.isInfInGunAmmoEnabled) {
-                ev.Firearm.Ammo = ev.Firearm.MaxAmmo;
-            } else if (Plugin.isInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
-                ev.Firearm.Ammo++;
+                ev.Firearm.MagazineAmmo = ev.Firearm.MaxMagazineAmmo;
+            } else if ((Plugin.isInfAmmoEnabled || Plugin.isInfInGunAmmoEnabled) && ev.Item.Type == ItemType.ParticleDisruptor) {
+                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.MaxMagazineAmmo;
+            }
+            
+            // Checks if players should have infinite ammo
+            if (Plugin.isInfAmmoEnabled) {
+                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxMagazineAmmo - ev.Firearm.MagazineAmmo));
+            }
+        }
+        public void OnWeaponDryFire(DryfiringWeaponEventArgs ev) {
+            // Checks if players should have infinite ammo without reloading
+            if (Plugin.isInfInGunAmmoEnabled) {
+                ev.Firearm.MagazineAmmo = ev.Firearm.MaxMagazineAmmo;
+            } else if ((Plugin.isInfAmmoEnabled || Plugin.isInfInGunAmmoEnabled) && ev.Item.Type == ItemType.ParticleDisruptor) {
+                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.MaxMagazineAmmo;
+            }
+
+            // Checks if players should have infinite ammo
+            if (Plugin.isInfAmmoEnabled) {
+                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxMagazineAmmo - ev.Firearm.MagazineAmmo));
             }
         }
         public void OnJailbirdUse(ChargingJailbirdEventArgs ev) {
-            if (Plugin.isInfInGunAmmoEnabled) {
-                ev.Jailbird.TotalCharges--;
+            if (Plugin.isInfAmmoEnabled || Plugin.isInfInGunAmmoEnabled) {
+                ev.Jailbird.TotalCharges = 0;
+            }
+        }
+        public void OnMicroEnergyDrain(UsingMicroHIDEnergyEventArgs ev) {
+            if (Plugin.isInfAmmoEnabled || Plugin.isInfInGunAmmoEnabled) {
+                ev.Drain = 0;
+                ev.MicroHID.Energy = 100;
             }
         }
 
-        public void OnWeaponReload(ReloadingWeaponEventArgs ev) {
-            // Checks if players should have infinite ammo
-            if (Plugin.isInfAmmoEnabled) {
-                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxAmmo + 1));
-            }
-        }
         public void OnAmmoDrop(DroppingAmmoEventArgs ev) {
             // Disallows players from dropping ammo if infinite ammo is enabled
             if (Plugin.isInfAmmoEnabled) {
@@ -50,15 +69,6 @@ namespace Event_Helper.Handlers {
                 } else {
                     ev.Player.ClearInventory();
                 }
-            }
-
-            // Adds ammo whenever someone spawns if infinite ammo is enabled
-            if (Plugin.isInfAmmoEnabled) {
-                ev.Player.AddAmmo(AmmoType.Nato9, 1);
-                ev.Player.AddAmmo(AmmoType.Nato556, 1);
-                ev.Player.AddAmmo(AmmoType.Nato762, 1);
-                ev.Player.AddAmmo(AmmoType.Ammo12Gauge, 1);
-                ev.Player.AddAmmo(AmmoType.Ammo44Cal, 1);
             }
         }
 
@@ -87,9 +97,10 @@ namespace Event_Helper.Handlers {
             if (Plugin.lockDoors.Contains(ev.Player)) {
                 if (!ev.Door.IsLocked) {
                     if (!ev.Player.IsBypassModeEnabled) {
+                        // Sets door to open so that it ends in the closed state after the door is interacted with
                         ev.Door.IsOpen = true;
                     }
-                    ev.Door.Lock(99999, DoorLockType.AdminCommand);
+                    ev.Door.Lock(float.PositiveInfinity, DoorLockType.AdminCommand);
                 } else {
                     ev.Door.Unlock();
                 }
@@ -97,36 +108,22 @@ namespace Event_Helper.Handlers {
         }
 
         public void OnPlayerDeath(DyingEventArgs ev) {
-            if (plugin.Config.TeslaVaporize) {
-                if (ev.DamageHandler.Type == DamageType.Tesla) {
-                    ev.Player.Vaporize();
-                }
+            if (plugin.Config.TeslaVaporize && ev.DamageHandler.Type == DamageType.Tesla) {
+                ev.Player.Vaporize();
             }
         }
 
         public void OnPlayerDetained(HandcuffingEventArgs ev) {
-            if (!plugin.Config.GodModePlayersGetDetained) {
-                if (ev.Target.IsGodModeEnabled) {
-                    ev.IsAllowed = false;
-                }
-            }
-            if (!plugin.Config.BypassPlayersGetDetained) {
-                if (ev.Target.IsBypassModeEnabled) {
-                    ev.IsAllowed = false;
-                }
+            if ((!plugin.Config.GodModePlayersGetDetained && ev.Target.IsGodModeEnabled) ||
+                (!plugin.Config.BypassPlayersGetDetained && ev.Target.IsBypassModeEnabled)) {
+                ev.IsAllowed = false;
             }
         }
 
         public void OnPickUpItem(PickingUpItemEventArgs ev) {
-            foreach (Exiled.API.Features.Player p in Plugin.itemUnableToPickUp.Keys) {
-                if (ev.Player == p) {
-                    Plugin.itemUnableToPickUp.TryGetValue(p, out var items);
-                    foreach (ItemType i in items) {
-                        if (ev.Pickup.Type == i) {
-                            ev.IsAllowed = false;
-                        }
-                    }
-                }
+            if (Plugin.itemUnableToPickUp.TryGetValue(ev.Pickup.Type, out var playerList)) {
+                if (playerList.Contains(ev.Player))
+                    ev.IsAllowed = false;
             }
         }
     }
