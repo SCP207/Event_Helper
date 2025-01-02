@@ -12,8 +12,8 @@ namespace Event_Helper {
         public override string Name { get; } = "Event Helper";
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public override Version RequiredExiledVersion { get; } = new(9, 0, 1);
-        public override Version Version { get; } = new(3, 4, 0);
+        public override Version RequiredExiledVersion { get; } = new(9, 2, 1);
+        public override Version Version { get; } = new(3, 4, 1);
 
         public static List<string> commandList { get; private set; } = new();
 
@@ -75,7 +75,6 @@ namespace Event_Helper {
             PlayerHandlers.Spawned += player.OnSpawn;
             PlayerHandlers.TriggeringTesla += player.OnTeslaGateActivate;
             PlayerHandlers.DamagingDoor += player.OnDoorDamage;
-            PlayerHandlers.DamagingWindow += player.OnWindowDamage;
             PlayerHandlers.InteractingDoor += player.OnDoorInteract;
             PlayerHandlers.Dying += player.OnPlayerDeath;
             PlayerHandlers.Handcuffing += player.OnPlayerDetained;
@@ -95,7 +94,6 @@ namespace Event_Helper {
             PlayerHandlers.Spawned -= player.OnSpawn;
             PlayerHandlers.TriggeringTesla -= player.OnTeslaGateActivate;
             PlayerHandlers.DamagingDoor -= player.OnDoorDamage;
-            PlayerHandlers.DamagingWindow -= player.OnWindowDamage;
             PlayerHandlers.InteractingDoor -= player.OnDoorInteract;
             PlayerHandlers.Dying -= player.OnPlayerDeath;
             PlayerHandlers.Handcuffing -= player.OnPlayerDetained;

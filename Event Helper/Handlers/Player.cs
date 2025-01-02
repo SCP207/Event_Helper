@@ -85,12 +85,6 @@ namespace Event_Helper.Handlers {
                 ev.IsAllowed = false;
             }
         }
-        public void OnWindowDamage(DamagingWindowEventArgs ev) {
-            // Checks if windows should break
-            if (!Plugin.doWindowsBreak) {
-                ev.IsAllowed = false;
-            }
-        }
 
         public void OnDoorInteract(InteractingDoorEventArgs ev) {
             // Checks if the player should be locking the door
