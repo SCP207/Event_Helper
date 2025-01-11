@@ -10,8 +10,8 @@ namespace Event_Helper {
         public override string Name { get; } = "Event Helper";
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public override Version RequiredExiledVersion { get; } = new(9, 2, 1);
-        public override Version Version { get; } = new(3, 4, 1);
+        public override Version RequiredExiledVersion { get; } = new(9, 3, 0);
+        public override Version Version { get; } = new(3, 5, 0);
 
         public static Plugin Instance { get; private set; }
 
