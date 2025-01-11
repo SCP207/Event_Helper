@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using PlayerHandlers = Exiled.Events.Handlers.Player;
-using ItemHandlers = Exiled.Events.Handlers.Item;
-using ServerHandlers = Exiled.Events.Handlers.Server;
+using System.Collections.ObjectModel;
 
 namespace Event_Helper {
     public class Plugin : Plugin<Config> {
@@ -15,119 +13,80 @@ namespace Event_Helper {
         public override Version RequiredExiledVersion { get; } = new(9, 2, 1);
         public override Version Version { get; } = new(3, 4, 1);
 
-        public static List<string> commandList { get; private set; } = new();
+        public static Plugin Instance { get; private set; }
 
-        public static bool isInfAmmoEnabled = false;
+        public ReadOnlyCollection<string> commandList { get; } = new(new List<string> {
+            "amountofdroppeditems",
+            "disablepickups",
+            "doorsbreaking",
+            "ehreset",
+            "giveeffectonspawn",
+            "giveitemonwave",
+            "infammo",
+            "infammoingun",
+            "lockingdoors",
+            "spawningwithitem",
+            "stopteslas",
+            "wavesenabled",
+            "windowsbreaking"
+        });
 
-        public static bool isInfInGunAmmoEnabled = false;
+        public bool isInfAmmoEnabled = false;
 
-        public static bool areSpawnWavesEnabled = true;
+        public bool isInfInGunAmmoEnabled = false;
 
-        public static bool areItemsBeingGivenOnWave = false;
-        public static ItemType itemsBeingGiven;
+        public bool areSpawnWavesEnabled = true;
 
-        public static bool areEffectsBeingGivenOnSpawn = false;
-        public static List<string> effectNames { get; } = new();
-        public static int effectDuration;
-        public static byte effectIntensity;
-        public static Dictionary<string, byte> effectIntensityAdditionOverTime = new();
+        public bool areItemsBeingGivenOnWave = false;
+        public ItemType itemsBeingGiven;
+        public bool itemsOnlyOnWaves;
 
-        public static bool areTeslasTriggering = true;
+        public bool areEffectsBeingGivenOnSpawn = false;
+        public List<string> effectNames { get; } = new();
+        public int effectDuration;
+        public byte effectIntensity;
+        public Dictionary<string, byte> effectIntensityAdditionOverTime = new();
+        public bool effectsOnlyOnWaves;
 
-        public static bool doPlayersSpawnWithItems = true;
-        public static bool affectsOnlyClassD = false;
+        public bool areTeslasTriggering = true;
 
-        public static bool doDoorsBreak = true;
+        public bool doPlayersSpawnWithItems = true;
+        public bool affectsOnlyClassD = false;
 
-        public static bool doWindowsBreak = true;
-        public static Dictionary<Window, float> windowHealthList { get; } = new();
+        public bool doDoorsBreak = true;
 
-        public static List<Player> lockDoors { get; } = new();
+        public bool doWindowsBreak = true;
+        public Dictionary<Window, float> windowHealthList { get; } = new();
 
-        public static Dictionary<ItemType, List<Player>> itemUnableToPickUp { get; } = new();
+        public List<Player> lockDoors { get; } = new();
 
-        private Handlers.Player player;
-        private Handlers.Server server;
+        public Dictionary<ItemType, List<Player>> itemUnableToPickUp { get; } = new();
 
         public override void OnEnabled() {
+            Instance = this;
             RegisterCommands();
-            GetCommands(true);
 
             base.OnEnabled();
         }
 
         public override void OnDisabled() {
+            Instance = null;
             UnregisterCommands();
-            GetCommands(false);
 
             base.OnDisabled();
         }
 
         private void RegisterCommands() {
-            player = new(this);
-            server = new();
-
-            ItemHandlers.ChargingJailbird += player.OnJailbirdUse;
-            PlayerHandlers.UsingMicroHIDEnergy += player.OnMicroEnergyDrain;
-            PlayerHandlers.Shot += player.OnWeaponFire;
-            PlayerHandlers.DryfiringWeapon += player.OnWeaponDryFire;
-            PlayerHandlers.DroppingAmmo += player.OnAmmoDrop;
-            PlayerHandlers.Spawned += player.OnSpawn;
-            PlayerHandlers.TriggeringTesla += player.OnTeslaGateActivate;
-            PlayerHandlers.DamagingDoor += player.OnDoorDamage;
-            PlayerHandlers.InteractingDoor += player.OnDoorInteract;
-            PlayerHandlers.Dying += player.OnPlayerDeath;
-            PlayerHandlers.Handcuffing += player.OnPlayerDetained;
-            PlayerHandlers.PickingUpItem += player.OnPickUpItem;
-
-            ServerHandlers.RespawningTeam += server.OnWaveSpawning;
-            ServerHandlers.RespawnedTeam += server.OnWaveSpawn;
-            ServerHandlers.RoundEnded += server.OnRoundEnd;
+            Handlers.Player.RegisterEvents();
+            Handlers.Server.RegisterEvents();
         }
 
         private void UnregisterCommands() {
-            ItemHandlers.ChargingJailbird -= player.OnJailbirdUse;
-            PlayerHandlers.UsingMicroHIDEnergy -= player.OnMicroEnergyDrain;
-            PlayerHandlers.Shot -= player.OnWeaponFire;
-            PlayerHandlers.DryfiringWeapon -= player.OnWeaponDryFire;
-            PlayerHandlers.DroppingAmmo -= player.OnAmmoDrop;
-            PlayerHandlers.Spawned -= player.OnSpawn;
-            PlayerHandlers.TriggeringTesla -= player.OnTeslaGateActivate;
-            PlayerHandlers.DamagingDoor -= player.OnDoorDamage;
-            PlayerHandlers.InteractingDoor -= player.OnDoorInteract;
-            PlayerHandlers.Dying -= player.OnPlayerDeath;
-            PlayerHandlers.Handcuffing -= player.OnPlayerDetained;
-            PlayerHandlers.PickingUpItem -= player.OnPickUpItem;
-
-            ServerHandlers.RespawningTeam -= server.OnWaveSpawning;
-            ServerHandlers.RespawnedTeam -= server.OnWaveSpawn;
-            ServerHandlers.RoundEnded -= server.OnRoundEnd;
-
-            player = null;
-            server = null;
+            Handlers.Player.UnregisterEvents();
+            Handlers.Server.UnregisterEvents();
         }
 
-        private void GetCommands(bool enabled) {
-            commandList = new();
-
-            if (enabled) {
-                commandList.Add("amountofdroppeditems");
-                commandList.Add("disablepickups");
-                commandList.Add("doorsbreaking");
-                commandList.Add("ehreset");
-                commandList.Add("giveeffectonspawn");
-                commandList.Add("giveitemonwave");
-                commandList.Add("infammo");
-                commandList.Add("infammoingun");
-                commandList.Add("lockingdoors");
-                commandList.Add("spawningwithitem");
-                commandList.Add("stopteslas");
-                commandList.Add("wavesenabled");
-                commandList.Add("windowsbreaking");
-            }
-        }
-
-        public static void ResetCommands() {
+        public void ResetCommands() {
             isInfAmmoEnabled = false;
 
             isInfInGunAmmoEnabled = false;

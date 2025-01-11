@@ -16,6 +16,6 @@ namespace Event_Helper {
             return msg;
         }
 
-        public static string LogPlayers(this IEnumerable<Player> players) => string.Join("\n - ", players.Select(x => $"{x.Nickname}({x.Id})"));
+        public static string Log(this IEnumerable<Player> players) => string.Join("\n - ", players.Select(x => $"{x.Nickname}({x.Id})"));
     }
 }

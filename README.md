@@ -1,57 +1,30 @@
 # Event_Helper_SL_EXILED
 This plugin provides 13 useful commands for events (use `ehhelp` to see the list of commands):
 
-1. infinite ammo
+**Format:** Command description - Permission
 
-2. infinite ammo in guns
+1. infinite ammo - eh.infammo
 
-3. stop waves
+2. infinite ammo in guns - eh.infammo
 
-4. spawn waves giving items
+3. stop waves - ev.wavesenabled
 
-5. spawn waves giving effects
+4. spawn waves giving items - eh.wavegiveitems
 
-6. stop teslas
+5. spawn waves giving effects - eh.wavegiveeffects
 
-7. Prevent people from spawning with items
+6. stop teslas - eh.stopteslas
 
-8. Make doors indestructible
+7. Prevent people from spawning with items - eh.noitemspawn
 
-9. Make windows indestructible
+8. Make doors indestructible - eh.indestructible
 
-10. Allows people to lock any door (like bypass)
+9. Make windows indestructible - eh.indestructible
 
-11. Allows you to locate the amount of a dropped items
+10. Allows people to lock any door (like bypass) - eh.lockingdoors
 
-12. Allows you to prevent people from picking up specific items
+11. Allows you to locate the amount of a dropped items - eh.locateitems
 
-13. Allows you to reset all commands in the plugin to their default states
+12. Allows you to prevent people from picking up specific items - eh.pickups
 
-## Permissions:
-**Note:** They may repeat, but the numbers corrospond to the command
-
-1. eh.infammo
-
-2. eh.infammo
-
-3. eh.wavesenabled
-
-4. eh.wavegiveitems
-
-5. eh.wavegiveeffects
-
-6. eh.stopteslas
-
-7. eh.noitemspawn
-
-8. eh.breakable
-
-9. eh.breakable
-
-10. eh.lockingdoors
-
-11. eh.locateitems
-
-12. eh.pickups
-
-13. eh.resetcommands
+13. Allows you to reset all commands in the plugin to their default states - eh.resetcommands

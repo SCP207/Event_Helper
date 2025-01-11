@@ -21,7 +21,7 @@ namespace Event_Give_Items.Commands {
                 return false;
             }
 
-            Plugin.ResetCommands();
+            Plugin.Instance.ResetCommands();
             response = "Done! Commands have been reset";
             return true;
         }

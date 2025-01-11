@@ -30,10 +30,7 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            string isAdded = "added to";
-            if (arguments.At(0) == "remove") {
-                isAdded = "removed from";
-            }
+            string isAdded = (arguments.At(0) == "remove") ? "removed from" : "added to";
 
             IEnumerable<Player> players;
             if (arguments.At(1) == "*" || arguments.At(1) == "all") {
@@ -41,20 +38,20 @@ namespace Event_Helper.Commands {
                 response = $"Done! Players were {isAdded} LockDoors\nPlayers: All";
             } else {
                 players = Player.GetProcessedData(arguments, 1);
-                response = $"Done! Players were {isAdded} LockDoors\nPlayers: {Extensions.LogPlayers(players)}";
+                response = $"Done! Players were {isAdded} LockDoors\nPlayers: {players.Log()}";
             }
             if (arguments.At(0) == "remove") {
                 foreach (Player p in players) {
-                    Plugin.lockDoors.Remove(p);
+                    Plugin.Instance.lockDoors.Remove(p);
                 }
             } else if (arguments.At(0) == "add") {
-                Plugin.lockDoors.AddRange(players);
+                Plugin.Instance.lockDoors.AddRange(players);
             } else {
                 response = $"Invalid value: {arguments.At(0)}";
                 return false;
             }
 
-            Log.Debug($"Players {isAdded} lock doors\n{Extensions.LogPlayers(players)}");
+            Log.Debug($"Players {isAdded} lock doors\n{players.Log()}");
             return true;
         }
     }

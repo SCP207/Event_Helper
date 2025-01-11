@@ -32,20 +32,17 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            if (Plugin.affectsOnlyClassD != onlyClassD) {
-                Plugin.doPlayersSpawnWithItems = false;
+            if (Plugin.Instance.affectsOnlyClassD != onlyClassD) {
+                Plugin.Instance.doPlayersSpawnWithItems = false;
             } else {
-                Plugin.doPlayersSpawnWithItems = !Plugin.doPlayersSpawnWithItems;
+                Plugin.Instance.doPlayersSpawnWithItems = !Plugin.Instance.doPlayersSpawnWithItems;
             }
-            Plugin.affectsOnlyClassD = onlyClassD;
+            Plugin.Instance.affectsOnlyClassD = onlyClassD;
 
-            string onlyClassDS = "doesn't only affect class D";
-            if (onlyClassD) {
-                onlyClassDS = "only affects class D";
-            }
+            string onlyClassDS = (onlyClassD) ? "only affects class D" : "doesn't only affect class D";
 
-            Log.Debug($"Spawning with items is set to {Plugin.doPlayersSpawnWithItems} and {onlyClassDS}");
-            response = $"Done! Spawning with items is now {Plugin.doPlayersSpawnWithItems} and {onlyClassDS}";
+            Log.Debug($"Spawning with items is set to {Plugin.Instance.doPlayersSpawnWithItems} and {onlyClassDS}");
+            response = $"Done! Spawning with items is now {Plugin.Instance.doPlayersSpawnWithItems} and {onlyClassDS}";
             return true;
         }
     }

@@ -21,7 +21,7 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.areSpawnWavesEnabled = !Plugin.areSpawnWavesEnabled;
+            Plugin.Instance.areSpawnWavesEnabled = !Plugin.Instance.areSpawnWavesEnabled;
             var waves = WaveTimer.GetWaveTimers();
             foreach (var w in waves) {
                 if (!w.IsPaused) {
@@ -31,10 +31,7 @@ namespace Event_Helper.Commands {
                 }
             }
 
-            string spawnWaves = "disabled";
-            if (Plugin.areSpawnWavesEnabled) {
-                spawnWaves = "enabled";
-            }
+            string spawnWaves = (Plugin.Instance.areSpawnWavesEnabled) ? "enabled" : "disabled";
 
             response = $"Done! Spawn waves are now {spawnWaves}";
             return true;

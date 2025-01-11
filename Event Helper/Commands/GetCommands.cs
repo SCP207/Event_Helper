@@ -17,7 +17,7 @@ namespace Event_Helper.Commands {
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
             string message = string.Empty;
-            foreach (string i in Plugin.commandList) {
+            foreach (string i in Plugin.Instance.commandList) {
                 message += $"\n{i}";
             }
             response = $"Commands:{message}";

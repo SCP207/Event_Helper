@@ -21,12 +21,9 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.areTeslasTriggering = !Plugin.areTeslasTriggering;
+            Plugin.Instance.areTeslasTriggering = !Plugin.Instance.areTeslasTriggering;
 
-            string teslaStop = "disabled";
-            if (Plugin.areTeslasTriggering) {
-                teslaStop = "enabled";
-            }
+            string teslaStop = (Plugin.Instance.areTeslasTriggering) ? "enabled" : "disabled";
 
             Log.Debug($"Tesla gates are now {teslaStop}");
             response = $"Done! Teslas are now {teslaStop}";

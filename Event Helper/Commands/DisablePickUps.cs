@@ -32,10 +32,7 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            string isAdded = "added to";
-            if (arguments.At(0) == "remove") {
-                isAdded = "removed from";
-            }
+            string isAdded = (arguments.At(0) == "remove") ? "removed from" : "added to";
 
             List<ItemType> items = new List<ItemType>();
             if (arguments.At(1) == "*" || arguments.At(1) == "all") {
@@ -59,15 +56,15 @@ namespace Event_Helper.Commands {
                 response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: All";
             } else {
                 players = Player.GetProcessedData(arguments, 2);
-                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: {Extensions.LogPlayers(players)}";
+                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: {players.Log()}";
             }
 
             foreach (ItemType i in items) {
                 List<Player> playerList = new();
                 foreach (Player p in players) {
                     if (arguments.At(0) == "add") {
-                        if (Plugin.itemUnableToPickUp.ContainsKey(i)) {
-                            Plugin.itemUnableToPickUp.TryGetValue(i, out playerList);
+                        if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
+                            Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out playerList);
                         }
                         if (!playerList.Contains(p)) {
                             playerList.Add(p);
@@ -80,8 +77,8 @@ namespace Event_Helper.Commands {
                             }
                         }
                     } else if (arguments.At(0) == "remove") {
-                        if (Plugin.itemUnableToPickUp.ContainsKey(i)) {
-                            Plugin.itemUnableToPickUp.TryGetValue(i, out playerList);
+                        if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
+                            Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out playerList);
                             playerList.Remove(p);
                         }
                     } else {
@@ -90,12 +87,12 @@ namespace Event_Helper.Commands {
                     }
                 }
 
-                Plugin.itemUnableToPickUp.Remove(i);
+                Plugin.Instance.itemUnableToPickUp.Remove(i);
                 if (playerList.Count != 0)
-                    Plugin.itemUnableToPickUp.Add(i, playerList);
+                    Plugin.Instance.itemUnableToPickUp.Add(i, playerList);
             }
 
-            Log.Debug($"Players can no longer pick up items\nPlayers: {Extensions.LogPlayers(players)}");
+            Log.Debug($"Players can no longer pick up items\nPlayers: {players.Log()}");
             return true;
         }
     }
