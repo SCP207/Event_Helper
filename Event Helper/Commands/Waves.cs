@@ -23,13 +23,13 @@ namespace Event_Helper.Commands {
 
             Plugin.Instance.areSpawnWavesEnabled = !Plugin.Instance.areSpawnWavesEnabled;
             var waves = WaveTimer.GetWaveTimers();
-            foreach (var w in waves) {
+            waves.ForEach(w => {
                 if (!w.IsPaused) {
                     w.Pause(float.PositiveInfinity);
                 } else {
-                    w.Pause(float.NegativeInfinity);
+                    w.Unpause();
                 }
-            }
+            });
 
             string spawnWaves = (Plugin.Instance.areSpawnWavesEnabled) ? "enabled" : "disabled";
 

@@ -11,27 +11,16 @@ using EPlayer = Exiled.API.Features.Player;
 namespace Event_Helper.Handlers {
     public static class Server {
         public static void RegisterEvents() {
-            ServerHandlers.RespawningTeam += OnWaveSpawning;
             ServerHandlers.RespawnedTeam += OnWaveSpawn;
-            ServerHandlers.RoundEnded += OnRoundEnd;
+            ServerHandlers.RoundStarted += OnRoundStart;
         }
 
         public static void UnregisterEvents() {
-            ServerHandlers.RespawningTeam -= OnWaveSpawning;
             ServerHandlers.RespawnedTeam -= OnWaveSpawn;
-            ServerHandlers.RoundEnded -= OnRoundEnd;
+            ServerHandlers.RoundStarted -= OnRoundStart;
         }
 
-        public static void OnWaveSpawning(RespawningTeamEventArgs ev) {
-            // Checks if spawn waves are enabled, doesn't run the rest if they are disabled //
-            if (!Plugin.Instance.areSpawnWavesEnabled) {
-                Log.Debug("Spawn waves are not enabled from the command \"wavesenabled\"");
-                ev.IsAllowed = false;
-                return;
-            }
-            Log.Debug("Spawn waves are enabled from the command \"wavesenabled\"");
-        }
-        public static void OnWaveSpawn(RespawnedTeamEventArgs ev) {
+        private static void OnWaveSpawn(RespawnedTeamEventArgs ev) {
             // Checks if an item should be given, then gives and force equips the item //
             if (Plugin.Instance.areItemsBeingGivenOnWave && Plugin.Instance.itemsOnlyOnWaves) {
                 Log.Debug("Items are being given out on waves from the command \"giveitemonspawn\"");
@@ -74,6 +63,6 @@ namespace Event_Helper.Handlers {
             }
         }
 
-        public static void OnRoundEnd(RoundEndedEventArgs ev) => Plugin.Instance.ResetCommands();
+        private static void OnRoundStart() => Plugin.Instance.ResetCommands();
     }
 }

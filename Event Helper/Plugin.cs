@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using System.Collections.ObjectModel;
+using Event_Helper.Commands;
+using Exiled.API.Features.Waves;
 
 namespace Event_Helper {
     public class Plugin : Plugin<Config> {
@@ -35,7 +37,7 @@ namespace Event_Helper {
 
         public bool isInfInGunAmmoEnabled = false;
 
-        public bool areSpawnWavesEnabled = true;
+        public bool areSpawnWavesEnabled { get; set; } = true;
 
         public bool areItemsBeingGivenOnWave = false;
         public ItemType itemsBeingGiven;
@@ -92,6 +94,11 @@ namespace Event_Helper {
             isInfInGunAmmoEnabled = false;
 
             areSpawnWavesEnabled = true;
+            var waves = WaveTimer.GetWaveTimers();
+            waves.ForEach(w => {
+                w.Unpause();
+                Log.Debug("Reset Waves");
+            });
 
             areItemsBeingGivenOnWave = false;
 
