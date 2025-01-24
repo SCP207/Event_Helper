@@ -6,7 +6,7 @@ using Exiled.API.Features.Items;
 
 using ServerHandlers = Exiled.Events.Handlers.Server;
 
-using EPlayer = Exiled.API.Features.Player;
+using ExiledPlayer = Exiled.API.Features.Player;
 
 namespace Event_Helper.Handlers {
     public static class Server {
@@ -26,8 +26,8 @@ namespace Event_Helper.Handlers {
                 Log.Debug("Items are being given out on waves from the command \"giveitemonspawn\"");
                 Log.Debug($"The item being given is {Plugin.Instance.itemsBeingGiven}");
 
-                IEnumerable<EPlayer> players = EPlayer.Dictionary.Values;
-                foreach (EPlayer p in players) {
+                IEnumerable<ExiledPlayer> players = ExiledPlayer.Dictionary.Values;
+                foreach (ExiledPlayer p in players) {
                     Item i = p.AddItem(Plugin.Instance.itemsBeingGiven);
                     if (ev.Players.Contains(p) || p.IsScp) {
                         p.CurrentItem = i;
@@ -41,8 +41,8 @@ namespace Event_Helper.Handlers {
                     Log.Debug("Effects are being given out on waves from the command \"giveitemonspawn\"");
 
                     // Gives the requested effect
-                    IEnumerable<EPlayer> players = EPlayer.Dictionary.Values;
-                    foreach (EPlayer p in players) {
+                    IEnumerable<ExiledPlayer> players = ExiledPlayer.Dictionary.Values;
+                    foreach (ExiledPlayer p in players) {
                         foreach (string effectName in Plugin.Instance.effectNames) {
                             p.EnableEffect(effectName, Plugin.Instance.effectIntensity, Plugin.Instance.effectDuration);
                         }

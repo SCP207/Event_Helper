@@ -24,7 +24,7 @@ namespace Event_Helper.Commands {
             Plugin.Instance.areSpawnWavesEnabled = !Plugin.Instance.areSpawnWavesEnabled;
             var waves = WaveTimer.GetWaveTimers();
             waves.ForEach(w => {
-                if (!w.IsPaused) {
+                if (!Plugin.Instance.areSpawnWavesEnabled) {
                     w.Pause(float.PositiveInfinity);
                 } else {
                     w.Unpause();
