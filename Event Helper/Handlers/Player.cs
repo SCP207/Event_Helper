@@ -52,11 +52,9 @@ namespace Event_Helper.Handlers {
         }
 
         private static void OnPlayerVerified(VerifiedEventArgs ev) {
-            Log.Debug(ev.Player.Nickname);
             var unablePickupList = Plugin.Instance.itemUnableToPickUp.Where(i => i.Value.affectsEveryone == true);
             foreach (var i in unablePickupList) {
                 i.Value.affectedPlayers.Add(ev.Player);
-                Log.Debug(i.Key.ToString());
             }
         }
 
