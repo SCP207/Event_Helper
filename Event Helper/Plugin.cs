@@ -17,7 +17,8 @@ namespace Event_Helper {
 
         public static Plugin Instance { get; private set; }
 
-        public ReadOnlyCollection<string> commandList { get; } = new(new List<string> {
+        public ReadOnlyCollection<string> commandList { get; } = new(
+            new List<string> {
             "amountofdroppeditems",
             "disablepickups",
             "doorsbreaking",
@@ -62,7 +63,7 @@ namespace Event_Helper {
 
         public List<Player> lockDoors { get; } = new();
 
-        public Dictionary<ItemType, List<Player>> itemUnableToPickUp { get; } = new();
+        public Dictionary<ItemType, (List<Player> affectedPlayers, bool affectsEveryone)> itemUnableToPickUp { get; } = new();
 
         public override void OnEnabled() {
             Instance = this;
@@ -94,9 +95,7 @@ namespace Event_Helper {
             isInfInGunAmmoEnabled = false;
 
             areSpawnWavesEnabled = true;
-            WaveTimer.GetWaveTimers().ForEach(w => {
-                w.Unpause();
-            });
+            WaveTimer.GetWaveTimers().ForEach(w => w.Unpause());
 
             areItemsBeingGivenOnWave = false;
 

@@ -11,7 +11,7 @@ namespace Event_Helper {
         [Description("Is debug mode enabled?")]
         public bool Debug { get; set; } = false;
 
-        [Description("Do Tesla Gates vaporize")]
+        [Description("Do Tesla Gates vaporize (This doesn't help with events, but it was too good not to add)")]
         public bool TeslaVaporize { get; set; } = false;
 
         [Description("Can players with God Mode get detained")]
@@ -19,5 +19,8 @@ namespace Event_Helper {
 
         [Description("Can players with Bypass get detained")]
         public bool BypassPlayersGetDetained { get; set; } = false;
+
+        [Description("Does infinite ammo make an infinite micro")]
+        public bool infiniteMicro { get; set; } = true;
     }
 }

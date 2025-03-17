@@ -1,24 +1,28 @@
-﻿using System.Collections.Generic;
-using Exiled.API.Enums;
+﻿using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Item;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
+using System.Collections.Generic;
+using System.Linq;
 
 using PlayerHandlers = Exiled.Events.Handlers.Player;
 using ItemHandlers = Exiled.Events.Handlers.Item;
 
-using EPlayer = Exiled.API.Features.Player;
+using ExiledPlayer = Exiled.API.Features.Player;
+using Exiled.API.Features.DamageHandlers;
 
 namespace Event_Helper.Handlers {
     public static class Player {
         public static void RegisterEvents() {
             ItemHandlers.ChargingJailbird += OnJailbirdUse;
 
+            PlayerHandlers.Verified += OnPlayerVerified;
             PlayerHandlers.UsingMicroHIDEnergy += OnMicroEnergyDrain;
             PlayerHandlers.Shot += OnWeaponFire;
             PlayerHandlers.DryfiringWeapon += OnWeaponDryFire;
+            PlayerHandlers.ReloadingWeapon += OnWeaponReload;
             PlayerHandlers.DroppingAmmo += OnAmmoDrop;
             PlayerHandlers.Spawned += OnSpawn;
             PlayerHandlers.TriggeringTesla += OnTeslaGateActivate;
@@ -32,9 +36,11 @@ namespace Event_Helper.Handlers {
         public static void UnregisterEvents() {
             ItemHandlers.ChargingJailbird -= OnJailbirdUse;
 
+            PlayerHandlers.Verified -= OnPlayerVerified;
             PlayerHandlers.UsingMicroHIDEnergy -= OnMicroEnergyDrain;
             PlayerHandlers.Shot -= OnWeaponFire;
             PlayerHandlers.DryfiringWeapon -= OnWeaponDryFire;
+            PlayerHandlers.ReloadingWeapon -= OnWeaponReload;
             PlayerHandlers.DroppingAmmo -= OnAmmoDrop;
             PlayerHandlers.Spawned -= OnSpawn;
             PlayerHandlers.TriggeringTesla -= OnTeslaGateActivate;
@@ -45,31 +51,40 @@ namespace Event_Helper.Handlers {
             PlayerHandlers.PickingUpItem -= OnPickUpItem;
         }
 
+        private static void OnPlayerVerified(VerifiedEventArgs ev) {
+            Log.Debug(ev.Player.Nickname);
+            var unablePickupList = Plugin.Instance.itemUnableToPickUp.Where(i => i.Value.affectsEveryone == true);
+            foreach (var i in unablePickupList) {
+                i.Value.affectedPlayers.Add(ev.Player);
+                Log.Debug(i.Key.ToString());
+            }
+        }
+
         private static void OnWeaponFire(ShotEventArgs ev) {
             // Checks if players should have infinite ammo without reloading //
             if (Plugin.Instance.isInfInGunAmmoEnabled) {
-                ev.Firearm.MagazineAmmo = ev.Firearm.MaxMagazineAmmo;
-            } else if ((Plugin.Instance.isInfAmmoEnabled || Plugin.Instance.isInfInGunAmmoEnabled) && ev.Item.Type == ItemType.ParticleDisruptor) {
-                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.MaxMagazineAmmo;
+                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
+                return;
+            } else if (Plugin.Instance.isInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
+                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
             }
-            
+
             // Checks if players should have infinite ammo //
-            if (Plugin.Instance.isInfAmmoEnabled) {
-                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxMagazineAmmo - ev.Firearm.MagazineAmmo));
-            }
+            if (Plugin.Instance.isInfAmmoEnabled)
+                ev.Player.SetAmmo(ev.Firearm.AmmoType, 1);
         }
         private static void OnWeaponDryFire(DryfiringWeaponEventArgs ev) {
             // Checks if players should have infinite ammo without reloading //
             if (Plugin.Instance.isInfInGunAmmoEnabled) {
-                ev.Firearm.MagazineAmmo = ev.Firearm.MaxMagazineAmmo;
-            } else if ((Plugin.Instance.isInfAmmoEnabled || Plugin.Instance.isInfInGunAmmoEnabled) && ev.Item.Type == ItemType.ParticleDisruptor) {
-                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.MaxMagazineAmmo;
+                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
+                return;
+            } else if (Plugin.Instance.isInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
+                ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
             }
 
             // Checks if players should have infinite ammo //
-            if (Plugin.Instance.isInfAmmoEnabled) {
-                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxMagazineAmmo - ev.Firearm.MagazineAmmo));
-            }
+            if (Plugin.Instance.isInfAmmoEnabled)
+                ev.Player.SetAmmo(ev.Firearm.AmmoType, 1);
         }
         private static void OnJailbirdUse(ChargingJailbirdEventArgs ev) {
             if (Plugin.Instance.isInfAmmoEnabled || Plugin.Instance.isInfInGunAmmoEnabled) {
@@ -77,9 +92,16 @@ namespace Event_Helper.Handlers {
             }
         }
         private static void OnMicroEnergyDrain(UsingMicroHIDEnergyEventArgs ev) {
-            if (Plugin.Instance.isInfAmmoEnabled || Plugin.Instance.isInfInGunAmmoEnabled) {
-                ev.Drain = 0;
+            if (Plugin.Instance.Config.infiniteMicro && (Plugin.Instance.isInfAmmoEnabled || Plugin.Instance.isInfInGunAmmoEnabled)) {
                 ev.MicroHID.Energy = 100;
+                ev.Drain = 0;
+            }
+        }
+        private static void OnWeaponReload(ReloadingWeaponEventArgs ev) {
+            if (Plugin.Instance.isInfAmmoEnabled) {
+                // Revolvers set ammo to 1 less, so that's why it's 2 here //
+                int addition = (ev.Firearm.Type == ItemType.GunRevolver) ? 2 : 1;
+                ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxMagazineAmmo - ev.Firearm.MagazineAmmo + addition));
             }
         }
 
@@ -108,8 +130,8 @@ namespace Event_Helper.Handlers {
                 Log.Debug("Items are being given out on waves from the command \"giveitemonspawn\"");
                 Log.Debug($"The item being given is {Plugin.Instance.itemsBeingGiven}");
 
-                IEnumerable<EPlayer> players = EPlayer.Dictionary.Values;
-                foreach (EPlayer p in players) {
+                IEnumerable<ExiledPlayer> players = ExiledPlayer.Dictionary.Values;
+                foreach (ExiledPlayer p in players) {
                     Item i = p.AddItem(Plugin.Instance.itemsBeingGiven);
                     p.CurrentItem = i;
                 }
@@ -120,8 +142,8 @@ namespace Event_Helper.Handlers {
                 Log.Debug("Effects are being given out on waves from the command \"giveitemonspawn\"");
 
                 // Gives the requested effect
-                IEnumerable<EPlayer> players = EPlayer.Dictionary.Values;
-                foreach (EPlayer p in players) {
+                IEnumerable<ExiledPlayer> players = ExiledPlayer.Dictionary.Values;
+                foreach (ExiledPlayer p in players) {
                     foreach (string effectName in Plugin.Instance.effectNames) {
                         p.EnableEffect(effectName, Plugin.Instance.effectIntensity, Plugin.Instance.effectDuration);
                     }
@@ -159,9 +181,8 @@ namespace Event_Helper.Handlers {
         }
 
         private static void OnPlayerDeath(DyingEventArgs ev) {
-            if (Plugin.Instance.Config.TeslaVaporize && ev.DamageHandler.Type == DamageType.Tesla) {
+            if (Plugin.Instance.Config.TeslaVaporize && ev.DamageHandler.Type == DamageType.Tesla)
                 ev.Player.Vaporize();
-            }
         }
 
         private static void OnPlayerDetained(HandcuffingEventArgs ev) {
@@ -173,7 +194,7 @@ namespace Event_Helper.Handlers {
 
         private static void OnPickUpItem(PickingUpItemEventArgs ev) {
             if (Plugin.Instance.itemUnableToPickUp.TryGetValue(ev.Pickup.Type, out var playerList)) {
-                if (playerList.Contains(ev.Player))
+                if (playerList.affectedPlayers.Contains(ev.Player))
                     ev.IsAllowed = false;
             }
         }

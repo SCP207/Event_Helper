@@ -2,7 +2,6 @@
 using System;
 using Exiled.Permissions.Extensions;
 using Exiled.API.Features;
-using Event_Helper;
 
 namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]

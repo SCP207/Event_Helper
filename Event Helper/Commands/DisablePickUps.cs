@@ -8,6 +8,7 @@ using InventorySystem.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using static PlayerRoles.Spectating.SpectatableModuleBase;
 
 namespace Event_Helper.Commands {
@@ -46,12 +47,15 @@ namespace Event_Helper.Commands {
                         response = $"Invalid value: {arguments.At(0)}";
                         return false;
                     }
-                    items.Add((ItemType)itemId);
+                    if (itemId >= 0 && itemId <= 54)
+                        items.Add((ItemType)itemId);
                 }
             }
 
+            bool affectsEveryone = false;
             IEnumerable<Player> players;
             if (arguments.At(2) == "*" || arguments.At(2) == "all") {
+                affectsEveryone = true;
                 players = Player.Dictionary.Values;
                 response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: All";
             } else {
@@ -59,37 +63,38 @@ namespace Event_Helper.Commands {
                 response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: {players.Log()}";
             }
 
+            List<Player> playerList = new();
             foreach (ItemType i in items) {
-                List<Player> playerList = new();
-                foreach (Player p in players) {
-                    if (arguments.At(0) == "add") {
-                        if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
-                            Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out playerList);
-                        }
-                        if (!playerList.Contains(p)) {
-                            playerList.Add(p);
-
-                            List<Item> playerItems = new(p.Items);
-                            foreach (Item item in playerItems) {
-                                if (item.Type == i) {
-                                    p.DropItem(item);
-                                }
-                            }
-                        }
-                    } else if (arguments.At(0) == "remove") {
-                        if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
-                            Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out playerList);
-                            playerList.Remove(p);
-                        }
-                    } else {
-                        response = $"Invalid value: {arguments.At(0)}";
-                        return false;
+                if (arguments.At(0) == "add") {
+                    if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
+                        Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out var playersList);
+                        playerList = playersList.affectedPlayers;
                     }
+                    playerList.AddRange(players);
+
+                    foreach (var p in players) {
+                        foreach (var item in p.Items.Where(item => item.Type == i)) {
+                            p.DropItem(item);
+                        }
+                    }
+                } else if (arguments.At(0) == "remove") {
+                    if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
+                        Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out var playersList);
+                        playerList = playersList.affectedPlayers;
+                        playerList.RemoveAll(p => players.Contains(p));
+                    } else {
+                        playerList = new();
+                    }
+                } else {
+                    response = $"Invalid value: {arguments.At(0)}";
+                    return false;
                 }
 
+                playerList = playerList.Distinct().ToList();
+
                 Plugin.Instance.itemUnableToPickUp.Remove(i);
-                if (playerList.Count != 0)
-                    Plugin.Instance.itemUnableToPickUp.Add(i, playerList);
+                if (playerList.Count > 0)
+                    Plugin.Instance.itemUnableToPickUp.Add(i, (playerList, affectsEveryone));
             }
 
             Log.Debug($"Players can no longer pick up items\nPlayers: {players.Log()}");

@@ -26,7 +26,7 @@ namespace Event_Helper.Handlers {
                 Log.Debug("Items are being given out on waves from the command \"giveitemonspawn\"");
                 Log.Debug($"The item being given is {Plugin.Instance.itemsBeingGiven}");
 
-                IEnumerable<ExiledPlayer> players = ExiledPlayer.Dictionary.Values;
+                var players = ExiledPlayer.Dictionary.Values;
                 foreach (ExiledPlayer p in players) {
                     Item i = p.AddItem(Plugin.Instance.itemsBeingGiven);
                     if (ev.Players.Contains(p) || p.IsScp) {
@@ -63,6 +63,9 @@ namespace Event_Helper.Handlers {
             }
         }
 
-        private static void OnRoundStart() => Plugin.Instance.ResetCommands();
+        private static void OnRoundStart() {
+            Plugin.Instance.ResetCommands();
+            Log.Debug("Commands Reset");
+        }
     }
 }
