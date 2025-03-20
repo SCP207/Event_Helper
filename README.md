@@ -1,30 +1,32 @@
 # Event_Helper_SL_EXILED
-This plugin provides 13 useful commands for events (use `ehhelp` to see the list of commands):
+This plugin provides 12 useful commands (this count doesn't include the reset command) for running events
 
-**Format:** Command description - Permission
+USse `ehhelp` to see the list of commands
 
-1. infinite ammo - eh.infammo
+**Format:** Command - Command description - Permission
 
-2. infinite ammo in guns - eh.infammo
+1. infammo - Toggles if there is infinite ammo in an inventory - eh.infammo
 
-3. stop waves - ev.wavesenabled
+2. infammoingun - Toggles if ther is infinite ammo in guns - eh.infammo
 
-4. spawn waves giving items - eh.wavegiveitems
+3. wavesenabled - Toggle if waves are enabled or not - ev.wavesenabled
 
-5. spawn waves giving effects - eh.wavegiveeffects
+4. giveitemonwave - Spawn waves giving items - eh.wavegiveitems
 
-6. stop teslas - eh.stopteslas
+5. giveeffectonspawn - Spawn waves giving effects - eh.wavegiveeffects
 
-7. Prevent people from spawning with items - eh.noitemspawn
+6. stopteslas - Toggles if teslas fire - eh.stopteslas
 
-8. Make doors indestructible - eh.indestructible
+7. spawningwithitem - Prevent people from spawning with items - eh.noitemspawn
 
-9. Make windows indestructible - eh.indestructible
+8. doorsbreaking - Toggles if doors are indestructible - eh.indestructible
 
-10. Allows people to lock any door (like bypass) - eh.lockingdoors
+9. windowsbreaking - Toggles if windows are indestructible - eh.indestructible
 
-11. Allows you to locate the amount of a dropped items - eh.locateitems
+10. lockingdoors - Allows people to lock any door (like bypass) - eh.lockingdoors
 
-12. Allows you to prevent people from picking up specific items - eh.pickups
+11. amountofdroppeditems - Allows you to locate the amount of a dropped items - eh.locateitems
 
-13. Allows you to reset all commands in the plugin to their default states - eh.resetcommands
+12. disablepickups - Allows you to prevent people from picking up specific items - eh.pickups
+
+13. ehreset - Allows you to reset all commands in the plugin to their default states - eh.resetcommands
