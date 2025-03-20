@@ -1,7 +1,7 @@
 # Event_Helper_SL_EXILED
 This plugin provides 12 useful commands (this count doesn't include the reset command) for running events
 
-USse `ehhelp` to see the list of commands
+Use `ehhelp` to see the list of commands
 
 **Format:** Command - Command description - Permission
 
