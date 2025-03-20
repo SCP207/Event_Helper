@@ -13,7 +13,7 @@ namespace Event_Helper {
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
         public override Version RequiredExiledVersion { get; } = new(9, 5, 1);
-        public override Version Version { get; } = new(3, 5, 3);
+        public override Version Version { get; } = new(3, 5, 4);
 
         public static Plugin Instance { get; private set; }
 
@@ -115,6 +115,8 @@ namespace Event_Helper {
             lockDoors.Clear();
 
             itemUnableToPickUp.Clear();
+
+            Log.Debug("Commands have been reset");
         }
     }
 }

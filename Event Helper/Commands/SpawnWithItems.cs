@@ -3,6 +3,7 @@ using System;
 using Exiled.Permissions.Extensions;
 using Event_Helper;
 using Exiled.Events.Handlers;
+using Exiled.API.Features;
 
 namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -46,10 +47,12 @@ namespace Event_Helper.Commands {
                 Plugin.Instance.itemsBeingGiven = (ItemType)itemID;
                 string onlyWavesMessage = (onlySpawnWaves) ? "spawn wave" : "spawn";
 
+                Log.Debug($"Every {onlyWavesMessage} will give item {(ItemType)itemID}");
                 response = $"Done! Every {onlyWavesMessage} will give item {(ItemType)itemID}";
             } else {
                 Plugin.Instance.areItemsBeingGivenOnWave = false;
 
+                Log.Debug($"Every spawn will not give items");
                 response = $"Done! Every spawn will not give items";
             }
 

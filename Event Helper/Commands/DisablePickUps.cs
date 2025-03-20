@@ -40,6 +40,8 @@ namespace Event_Helper.Commands {
                 for (int index = 0; index <= 54; index++) {
                     items.Add((ItemType)index);
                 }
+
+                response = $"Done! Players were {isAdded} DisablePickUps\nItems: All";
             } else {
                 string[] itemStrings = arguments.At(1).Split('.');
                 foreach (string i in itemStrings) {
@@ -50,6 +52,8 @@ namespace Event_Helper.Commands {
                     if (itemId >= 0 && itemId <= 54)
                         items.Add((ItemType)itemId);
                 }
+
+                response = $"Done! Players were {isAdded} DisablePickUps\nItems: {items.Log()}";
             }
 
             bool affectsEveryone = false;
@@ -57,10 +61,10 @@ namespace Event_Helper.Commands {
             if (arguments.At(2) == "*" || arguments.At(2) == "all") {
                 affectsEveryone = true;
                 players = Player.Dictionary.Values;
-                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: All";
+                response += "\nPlayers: All";
             } else {
                 players = Player.GetProcessedData(arguments, 2);
-                response = $"Done! Players were {isAdded} DisablePickUps\nPlayers: {players.Log()}";
+                response += $"\nPlayers: {players.Log()}";
             }
 
             List<Player> playerList = new();
@@ -97,7 +101,7 @@ namespace Event_Helper.Commands {
                     Plugin.Instance.itemUnableToPickUp.Add(i, (playerList, affectsEveryone));
             }
 
-            Log.Debug($"Players can no longer pick up items\nPlayers: {players.Log()}");
+            Log.Debug($"Players can no longer pick up items\nItems: {items.Log()}\nPlayers: {players.Log()}");
             return true;
         }
     }

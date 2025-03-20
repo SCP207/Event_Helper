@@ -63,9 +63,7 @@ namespace Event_Helper.Handlers {
             }
         }
 
-        private static void OnRoundStart() {
+        private static void OnRoundStart() =>
             Plugin.Instance.ResetCommands();
-            Log.Debug("Commands Reset");
-        }
     }
 }

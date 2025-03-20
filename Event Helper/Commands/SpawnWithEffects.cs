@@ -2,6 +2,7 @@
 using System;
 using Exiled.Permissions.Extensions;
 using Event_Helper;
+using Exiled.API.Features;
 
 namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -62,6 +63,7 @@ namespace Event_Helper.Commands {
 
             string onlyWavesMessage = (onlySpawnWaves) ? "spawn wave" : "spawn";
 
+            Log.Debug($"Every {onlyWavesMessage} will give the effect {effect} for {duration} seconds with intensity {intensity}");
             response = $"Done! Every {onlyWavesMessage} will give the effect {effect} for {duration} seconds with intensity {intensity}";
             return true;
         }

@@ -3,6 +3,7 @@ using System;
 using Exiled.Permissions.Extensions;
 using Event_Helper;
 using Exiled.API.Features.Waves;
+using Exiled.API.Features;
 
 namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -33,6 +34,7 @@ namespace Event_Helper.Commands {
 
             string spawnWaves = (Plugin.Instance.areSpawnWavesEnabled) ? "enabled" : "disabled";
 
+            Log.Debug($"Spawn waves are not {spawnWaves}");
             response = $"Done! Spawn waves are now {spawnWaves}";
             return true;
         }
