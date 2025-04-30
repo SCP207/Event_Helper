@@ -45,6 +45,7 @@ namespace Event_Helper.Commands {
             foreach (var player in Player.List)
                 player.AddItem(items);
 
+            Log.Debug($"All players were given items: {arguments.At(0)}");
             response = "Done! Gave all players items";
             return true;
         }
