@@ -42,10 +42,10 @@ namespace Event_Helper.Commands {
             }
             if (arguments.At(0) == "remove") {
                 foreach (Player p in players) {
-                    Plugin.Instance.lockDoors.Remove(p);
+                    Plugin.Instance.PlayersThatLockDoors.Remove(p);
                 }
             } else if (arguments.At(0) == "add") {
-                Plugin.Instance.lockDoors.AddRange(players);
+                Plugin.Instance.PlayersThatLockDoors.AddRange(players);
             } else {
                 response = $"Invalid value: {arguments.At(0)}";
                 return false;

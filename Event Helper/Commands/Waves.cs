@@ -22,17 +22,17 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.Instance.areSpawnWavesEnabled = !Plugin.Instance.areSpawnWavesEnabled;
+            Plugin.Instance.AreSpawnWavesEnabled = !Plugin.Instance.AreSpawnWavesEnabled;
             var waves = WaveTimer.GetWaveTimers();
             waves.ForEach(w => {
-                if (!Plugin.Instance.areSpawnWavesEnabled) {
+                if (!Plugin.Instance.AreSpawnWavesEnabled) {
                     w.Pause(float.PositiveInfinity);
                 } else {
                     w.Unpause();
                 }
             });
 
-            string spawnWaves = (Plugin.Instance.areSpawnWavesEnabled) ? "enabled" : "disabled";
+            string spawnWaves = (Plugin.Instance.AreSpawnWavesEnabled) ? "enabled" : "disabled";
 
             Log.Debug($"Spawn waves are not {spawnWaves}");
             response = $"Done! Spawn waves are now {spawnWaves}";

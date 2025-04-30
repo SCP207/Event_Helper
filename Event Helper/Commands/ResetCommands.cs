@@ -6,24 +6,24 @@ using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Event_Give_Items.Commands {
+namespace Event_Give_Items.Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class ResetCommands : ICommand {
         public string Command { get; } = "ehreset";
 
         public string[] Aliases { get; } = { "reseteh", "ehr" };
 
-        public string Description { get; } = "Resets all commands back to their defaunt state";
+        public string Description { get; } = "Resets all Event_Helper.Commands back to their defaunt state";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.resetcommands")) {
+            if (!sender.CheckPermission("eh.resetEvent_Helper.Commands")) {
                 response = "You don't have permission to run this command";
                 return false;
             }
 
             Plugin.Instance.ResetCommands();
 
-            response = "Done! Commands have been reset";
+            response = "Done! Event_Helper.Commands have been reset";
             return true;
         }
     }

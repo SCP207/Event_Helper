@@ -21,10 +21,10 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.Instance.isInfInGunAmmoEnabled = !Plugin.Instance.isInfInGunAmmoEnabled;
+            Plugin.Instance.IsInfInGunAmmoEnabled = !Plugin.Instance.IsInfInGunAmmoEnabled;
 
-            Log.Debug($"Infinite Ammo in Guns is set to {Plugin.Instance.isInfInGunAmmoEnabled}");
-            response = $"Done! Infinite Ammo in Guns is now {Plugin.Instance.isInfInGunAmmoEnabled}";
+            Log.Debug($"Infinite Ammo in Guns is set to {Plugin.Instance.IsInfInGunAmmoEnabled}");
+            response = $"Done! Infinite Ammo in Guns is now {Plugin.Instance.IsInfInGunAmmoEnabled}";
             return true;
         }
     }

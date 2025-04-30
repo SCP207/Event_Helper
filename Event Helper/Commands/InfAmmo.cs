@@ -24,10 +24,10 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.Instance.isInfAmmoEnabled = !Plugin.Instance.isInfAmmoEnabled;
+            Plugin.Instance.IsInfAmmoEnabled = !Plugin.Instance.IsInfAmmoEnabled;
 
-            Log.Debug($"InfAmmo is set to {Plugin.Instance.isInfAmmoEnabled}");
-            response = $"Done! InfAmmo is set to {Plugin.Instance.isInfAmmoEnabled}";
+            Log.Debug($"InfAmmo is set to {Plugin.Instance.IsInfAmmoEnabled}");
+            response = $"Done! InfAmmo is set to {Plugin.Instance.IsInfAmmoEnabled}";
             return true;
         }
     }

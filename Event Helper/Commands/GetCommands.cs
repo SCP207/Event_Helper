@@ -16,11 +16,13 @@ namespace Event_Helper.Commands {
         public string Description { get; } = "Gets a list of all commands in the Event Helpers plugin";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            string message = string.Empty;
-            foreach (string i in Plugin.Instance.commandList) {
-                message += $"\n{i}";
+            response = "Commands:";
+            foreach (var commandDict in Plugin.Instance.Commands.Values) {
+                foreach (var command in commandDict.Values) {
+                    response += $"\n{command.Command}";
+                }
             }
-            response = $"Commands:{message}";
+
             return true;
         }
     }

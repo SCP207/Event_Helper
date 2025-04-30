@@ -52,7 +52,7 @@ namespace Event_Helper.Handlers {
         }
 
         private static void OnPlayerVerified(VerifiedEventArgs ev) {
-            var unablePickupList = Plugin.Instance.itemUnableToPickUp.Where(i => i.Value.affectsEveryone == true);
+            var unablePickupList = Plugin.Instance.ItemUnableToPickUp.Where(i => i.Value.affectsEveryone == true);
             foreach (var i in unablePickupList) {
                 i.Value.affectedPlayers.Add(ev.Player);
             }
@@ -60,43 +60,43 @@ namespace Event_Helper.Handlers {
 
         private static void OnWeaponFire(ShotEventArgs ev) {
             // Checks if players should have infinite ammo without reloading //
-            if (Plugin.Instance.isInfInGunAmmoEnabled) {
+            if (Plugin.Instance.IsInfInGunAmmoEnabled) {
                 ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
                 return;
-            } else if (Plugin.Instance.isInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
+            } else if (Plugin.Instance.IsInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
                 ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
             }
 
             // Checks if players should have infinite ammo //
-            if (Plugin.Instance.isInfAmmoEnabled)
+            if (Plugin.Instance.IsInfAmmoEnabled)
                 ev.Player.SetAmmo(ev.Firearm.AmmoType, 1);
         }
         private static void OnWeaponDryFire(DryfiringWeaponEventArgs ev) {
             // Checks if players should have infinite ammo without reloading //
-            if (Plugin.Instance.isInfInGunAmmoEnabled) {
+            if (Plugin.Instance.IsInfInGunAmmoEnabled) {
                 ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
                 return;
-            } else if (Plugin.Instance.isInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
+            } else if (Plugin.Instance.IsInfAmmoEnabled && ev.Item.Type == ItemType.ParticleDisruptor) {
                 ev.Firearm.PrimaryMagazine.Ammo = ev.Firearm.PrimaryMagazine.MaxAmmo;
             }
 
             // Checks if players should have infinite ammo //
-            if (Plugin.Instance.isInfAmmoEnabled)
+            if (Plugin.Instance.IsInfAmmoEnabled)
                 ev.Player.SetAmmo(ev.Firearm.AmmoType, 1);
         }
         private static void OnJailbirdUse(ChargingJailbirdEventArgs ev) {
-            if (Plugin.Instance.isInfAmmoEnabled || Plugin.Instance.isInfInGunAmmoEnabled) {
+            if (Plugin.Instance.IsInfAmmoEnabled || Plugin.Instance.IsInfInGunAmmoEnabled) {
                 ev.Jailbird.TotalCharges = 0;
             }
         }
         private static void OnMicroEnergyDrain(UsingMicroHIDEnergyEventArgs ev) {
-            if (Plugin.Instance.Config.infiniteMicro && (Plugin.Instance.isInfAmmoEnabled || Plugin.Instance.isInfInGunAmmoEnabled)) {
+            if (Plugin.Instance.Config.infiniteMicro && (Plugin.Instance.IsInfAmmoEnabled || Plugin.Instance.IsInfInGunAmmoEnabled)) {
                 ev.MicroHID.Energy = 100;
                 ev.Drain = 0;
             }
         }
         private static void OnWeaponReload(ReloadingWeaponEventArgs ev) {
-            if (Plugin.Instance.isInfAmmoEnabled) {
+            if (Plugin.Instance.IsInfAmmoEnabled) {
                 // Revolvers set ammo to 1 less, so that's why it's 2 here //
                 int addition = (ev.Firearm.Type == ItemType.GunRevolver) ? 2 : 1;
                 ev.Player.SetAmmo(ev.Firearm.AmmoType, (ushort)(ev.Firearm.MaxMagazineAmmo - ev.Firearm.MagazineAmmo + addition));
@@ -105,7 +105,7 @@ namespace Event_Helper.Handlers {
 
         private static void OnAmmoDrop(DroppingAmmoEventArgs ev) {
             // Disallows players from dropping ammo if infinite ammo is enabled //
-            if (Plugin.Instance.isInfAmmoEnabled) {
+            if (Plugin.Instance.IsInfAmmoEnabled) {
                 ev.IsAllowed = false;
                 return;
             }
@@ -113,8 +113,8 @@ namespace Event_Helper.Handlers {
 
         private static void OnSpawn(SpawnedEventArgs ev) {
             // Clears the inventory of the player if they shouldn't spawn with items //
-            if (!Plugin.Instance.doPlayersSpawnWithItems) {
-                if (Plugin.Instance.affectsOnlyClassD) {
+            if (!Plugin.Instance.DoPlayersSpawnWithItems) {
+                if (Plugin.Instance.AffectOnlyClassD) {
                     if (ev.Player.Role == RoleTypeId.ClassD) {
                         ev.Player.ClearInventory();
                     }
@@ -124,26 +124,26 @@ namespace Event_Helper.Handlers {
             }
 
             // Checks if an item should be given, then gives and force equips the item //
-            if (Plugin.Instance.areItemsBeingGivenOnWave && Plugin.Instance.itemsOnlyOnWaves) {
+            if (Plugin.Instance.AreItemsBeingGivenOnWave && Plugin.Instance.ItemsOnlyOnWaves) {
                 Log.Debug("Items are being given out on waves from the command \"giveitemonspawn\"");
-                Log.Debug($"The item being given is {Plugin.Instance.itemsBeingGiven}");
+                Log.Debug($"The item being given is {Plugin.Instance.ItemsBeingGiven}");
 
                 IEnumerable<ExiledPlayer> players = ExiledPlayer.Dictionary.Values;
                 foreach (ExiledPlayer p in players) {
-                    Item i = p.AddItem(Plugin.Instance.itemsBeingGiven);
+                    Item i = p.AddItem(Plugin.Instance.ItemsBeingGiven);
                     p.CurrentItem = i;
                 }
             }
 
             // Checks if an effect should be gien, gives it, then adds the amount you wanted to add //
-            if (Plugin.Instance.areEffectsBeingGivenOnSpawn && !Plugin.Instance.effectsOnlyOnWaves) {
+            if (Plugin.Instance.AreEffectsBeingGivenOnSpawn && !Plugin.Instance.EffectsOnlyOnWaves) {
                 Log.Debug("Effects are being given out on waves from the command \"giveitemonspawn\"");
 
                 // Gives the requested effect
                 IEnumerable<ExiledPlayer> players = ExiledPlayer.Dictionary.Values;
                 foreach (ExiledPlayer p in players) {
-                    foreach (string effectName in Plugin.Instance.effectNames) {
-                        p.EnableEffect(effectName, Plugin.Instance.effectIntensity, Plugin.Instance.effectDuration);
+                    foreach (string effectName in Plugin.Instance.EffectNames) {
+                        p.EnableEffect(effectName, Plugin.Instance.EffectIntensity, Plugin.Instance.EffectDuration);
                     }
                 }
             }
@@ -151,21 +151,21 @@ namespace Event_Helper.Handlers {
 
         private static void OnTeslaGateActivate(TriggeringTeslaEventArgs ev) {
             // Checks if teslas should be triggered //
-            if (!Plugin.Instance.areTeslasTriggering) {
+            if (!Plugin.Instance.AreTeslasTriggering) {
                 ev.IsTriggerable = false;
             }
         }
 
         private static void OnDoorDamage(DamagingDoorEventArgs ev) {
             // Checks if doors should break //
-            if (!Plugin.Instance.doDoorsBreak) {
+            if (!Plugin.Instance.DoDoorsBreak) {
                 ev.IsAllowed = false;
             }
         }
 
         private static void OnDoorInteract(InteractingDoorEventArgs ev) {
             // Checks if the player should be locking the door //
-            if (Plugin.Instance.lockDoors.Contains(ev.Player)) {
+            if (Plugin.Instance.PlayersThatLockDoors.Contains(ev.Player)) {
                 if (!ev.Door.IsLocked) {
                     if (!ev.Player.IsBypassModeEnabled) {
                         // Sets door to open so that it ends in the closed state after the door is interacted with //
@@ -191,7 +191,7 @@ namespace Event_Helper.Handlers {
         }
 
         private static void OnPickUpItem(PickingUpItemEventArgs ev) {
-            if (Plugin.Instance.itemUnableToPickUp.TryGetValue(ev.Pickup.Type, out var playerList)) {
+            if (Plugin.Instance.ItemUnableToPickUp.TryGetValue(ev.Pickup.Type, out var playerList)) {
                 if (playerList.affectedPlayers.Contains(ev.Player))
                     ev.IsAllowed = false;
             }

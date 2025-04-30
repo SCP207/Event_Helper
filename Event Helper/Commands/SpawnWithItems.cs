@@ -39,18 +39,18 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.Instance.itemsOnlyOnWaves = onlySpawnWaves;
+            Plugin.Instance.ItemsOnlyOnWaves = onlySpawnWaves;
 
             // Checks if the item is a valid item //
             if (itemID >= 0 || itemID <= itemIDMax) {
-                Plugin.Instance.areItemsBeingGivenOnWave = true;
-                Plugin.Instance.itemsBeingGiven = (ItemType)itemID;
+                Plugin.Instance.AreItemsBeingGivenOnWave = true;
+                Plugin.Instance.ItemsBeingGiven = (ItemType)itemID;
                 string onlyWavesMessage = (onlySpawnWaves) ? "spawn wave" : "spawn";
 
                 Log.Debug($"Every {onlyWavesMessage} will give item {(ItemType)itemID}");
                 response = $"Done! Every {onlyWavesMessage} will give item {(ItemType)itemID}";
             } else {
-                Plugin.Instance.areItemsBeingGivenOnWave = false;
+                Plugin.Instance.AreItemsBeingGivenOnWave = false;
 
                 Log.Debug($"Every spawn will not give items");
                 response = $"Done! Every spawn will not give items";

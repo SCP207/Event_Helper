@@ -35,7 +35,7 @@ namespace Event_Helper.Commands {
 
             string isAdded = (arguments.At(0) == "remove") ? "removed from" : "added to";
 
-            List<ItemType> items = new List<ItemType>();
+            List<ItemType> items = new();
             if (arguments.At(1) == "*" || arguments.At(1) == "all") {
                 for (int index = 0; index <= 54; index++) {
                     items.Add((ItemType)index);
@@ -70,8 +70,8 @@ namespace Event_Helper.Commands {
             List<Player> playerList = new();
             foreach (ItemType i in items) {
                 if (arguments.At(0) == "add") {
-                    if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
-                        Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out var playersList);
+                    if (Plugin.Instance.ItemUnableToPickUp.ContainsKey(i)) {
+                        Plugin.Instance.ItemUnableToPickUp.TryGetValue(i, out var playersList);
                         playerList = playersList.affectedPlayers;
                     }
                     playerList.AddRange(players);
@@ -82,8 +82,8 @@ namespace Event_Helper.Commands {
                         }
                     }
                 } else if (arguments.At(0) == "remove") {
-                    if (Plugin.Instance.itemUnableToPickUp.ContainsKey(i)) {
-                        Plugin.Instance.itemUnableToPickUp.TryGetValue(i, out var playersList);
+                    if (Plugin.Instance.ItemUnableToPickUp.ContainsKey(i)) {
+                        Plugin.Instance.ItemUnableToPickUp.TryGetValue(i, out var playersList);
                         playerList = playersList.affectedPlayers;
                         playerList.RemoveAll(p => players.Contains(p));
                     } else {
@@ -96,9 +96,9 @@ namespace Event_Helper.Commands {
 
                 playerList = playerList.Distinct().ToList();
 
-                Plugin.Instance.itemUnableToPickUp.Remove(i);
+                Plugin.Instance.ItemUnableToPickUp.Remove(i);
                 if (playerList.Count > 0)
-                    Plugin.Instance.itemUnableToPickUp.Add(i, (playerList, affectsEveryone));
+                    Plugin.Instance.ItemUnableToPickUp.Add(i, (playerList, affectsEveryone));
             }
 
             Log.Debug($"Players can no longer pick up items\nItems: {items.Log()}\nPlayers: {players.Log()}");

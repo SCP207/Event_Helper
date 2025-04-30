@@ -8,7 +8,7 @@ namespace Event_Helper.Commands {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SpawnWithEffects : ICommand, IUsageProvider {
         private string effect;
-        private int duration;
+        private float duration;
         private byte intensity, additionOverTime;
         private bool onlySpawnWaves;
 
@@ -31,11 +31,11 @@ namespace Event_Helper.Commands {
                 return false;
             }
             if (arguments.At(0) == "false") {
-                Plugin.Instance.areEffectsBeingGivenOnSpawn = false;
+                Plugin.Instance.AreEffectsBeingGivenOnSpawn = false;
                 response = $"Done! Every spawn wave will not give effects";
                 return true;
             }
-            if (!int.TryParse(arguments.At(1), out duration)) {
+            if (!float.TryParse(arguments.At(1), out duration)) {
                 response = $"Invalid value: {arguments.At(1)}";
                 return false;
             }
@@ -54,12 +54,12 @@ namespace Event_Helper.Commands {
 
             effect = arguments.At(0);
 
-            Plugin.Instance.areEffectsBeingGivenOnSpawn = true;
-            Plugin.Instance.effectNames.Add(effect);
-            Plugin.Instance.effectDuration = duration;
-            Plugin.Instance.effectIntensity = intensity;
-            Plugin.Instance.effectIntensityAdditionOverTime.Add(effect, additionOverTime);
-            Plugin.Instance.effectsOnlyOnWaves = onlySpawnWaves;
+            Plugin.Instance.AreEffectsBeingGivenOnSpawn = true;
+            Plugin.Instance.EffectNames.Add(effect);
+            Plugin.Instance.EffectDuration = duration;
+            Plugin.Instance.EffectIntensity = intensity;
+            Plugin.Instance.EffectIntensityAdditionOverTime.Add(effect, additionOverTime);
+            Plugin.Instance.EffectsOnlyOnWaves = onlySpawnWaves;
 
             string onlyWavesMessage = (onlySpawnWaves) ? "spawn wave" : "spawn";
 

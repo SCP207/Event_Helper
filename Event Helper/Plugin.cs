@@ -12,12 +12,13 @@ namespace Event_Helper {
         public override string Name { get; } = "Event Helper";
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public override Version RequiredExiledVersion { get; } = new(9, 5, 1);
-        public override Version Version { get; } = new(3, 5, 4);
+        public override Version RequiredExiledVersion { get; } = new(9, 6, 0);
+        public override Version Version { get; } = new(3, 5, 5);
 
         public static Plugin Instance { get; private set; }
 
-        public ReadOnlyCollection<string> commandList { get; } = new(
+        /*
+        public ReadOnlyCollection<string> CommandList { get; } = new(
             new List<string> {
             "amountofdroppeditems",
             "disablepickups",
@@ -33,37 +34,38 @@ namespace Event_Helper {
             "wavesenabled",
             "windowsbreaking"
         });
+        */
 
-        public bool isInfAmmoEnabled = false;
+        public bool IsInfAmmoEnabled { get; set; } = false;
 
-        public bool isInfInGunAmmoEnabled = false;
+        public bool IsInfInGunAmmoEnabled { get; set; } = false;
 
-        public bool areSpawnWavesEnabled { get; set; } = true;
+        public bool AreSpawnWavesEnabled { get; set; } = true;
 
-        public bool areItemsBeingGivenOnWave = false;
-        public ItemType itemsBeingGiven;
-        public bool itemsOnlyOnWaves;
+        public bool AreItemsBeingGivenOnWave { get; set; } = false;
+        public ItemType ItemsBeingGiven { get; set; } = ItemType.None;
+        public bool ItemsOnlyOnWaves { get; set; } = true;
 
-        public bool areEffectsBeingGivenOnSpawn = false;
-        public List<string> effectNames { get; } = new();
-        public int effectDuration;
-        public byte effectIntensity;
-        public Dictionary<string, byte> effectIntensityAdditionOverTime = new();
-        public bool effectsOnlyOnWaves;
+        public bool AreEffectsBeingGivenOnSpawn { get; set; } = false;
+        public List<string> EffectNames { get; } = new();
+        public float EffectDuration { get; set; } = 0;
+        public byte EffectIntensity { get; set; } = 0;
+        public Dictionary<string, byte> EffectIntensityAdditionOverTime { get; } = new();
+        public bool EffectsOnlyOnWaves { get; set; } = true;
 
-        public bool areTeslasTriggering = true;
+        public bool AreTeslasTriggering { get; set; } = true;
 
-        public bool doPlayersSpawnWithItems = true;
-        public bool affectsOnlyClassD = false;
+        public bool DoPlayersSpawnWithItems { get; set; } = true;
+        public bool AffectOnlyClassD { get; set; } = false;
 
-        public bool doDoorsBreak = true;
+        public bool DoDoorsBreak { get; set; } = true;
 
-        public bool doWindowsBreak = true;
-        public Dictionary<Window, float> windowHealthList { get; } = new();
+        public bool DoWindowsBreak { get; set; } = true;
+        public Dictionary<Window, float> WindowHealthList { get; } = new();
 
-        public List<Player> lockDoors { get; } = new();
+        public List<Player> PlayersThatLockDoors { get; } = new();
 
-        public Dictionary<ItemType, (List<Player> affectedPlayers, bool affectsEveryone)> itemUnableToPickUp { get; } = new();
+        public Dictionary<ItemType, (List<Player> affectedPlayers, bool affectsEveryone)> ItemUnableToPickUp { get; } = new();
 
         public override void OnEnabled() {
             Instance = this;
@@ -90,31 +92,31 @@ namespace Event_Helper {
         }
 
         public void ResetCommands() {
-            isInfAmmoEnabled = false;
+            IsInfAmmoEnabled = false;
 
-            isInfInGunAmmoEnabled = false;
+            IsInfInGunAmmoEnabled = false;
 
-            areSpawnWavesEnabled = true;
+            AreSpawnWavesEnabled = true;
             WaveTimer.GetWaveTimers().ForEach(w => w.Unpause());
 
-            areItemsBeingGivenOnWave = false;
+            AreItemsBeingGivenOnWave = false;
 
-            areEffectsBeingGivenOnSpawn = false;
-            effectNames.Clear();
+            AreEffectsBeingGivenOnSpawn = false;
+            EffectNames.Clear();
 
-            areTeslasTriggering = true;
+            AreTeslasTriggering = true;
 
-            doPlayersSpawnWithItems = true;
-            affectsOnlyClassD = false;
+            DoPlayersSpawnWithItems = true;
+            AffectOnlyClassD = false;
 
-            doDoorsBreak = true;
+            DoDoorsBreak = true;
 
-            doWindowsBreak = true;
-            windowHealthList.Clear();
+            DoWindowsBreak = true;
+            WindowHealthList.Clear();
 
-            lockDoors.Clear();
+            PlayersThatLockDoors.Clear();
 
-            itemUnableToPickUp.Clear();
+            ItemUnableToPickUp.Clear();
 
             Log.Debug("Commands have been reset");
         }

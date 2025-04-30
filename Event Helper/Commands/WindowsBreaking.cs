@@ -22,22 +22,22 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.Instance.doWindowsBreak = !Plugin.Instance.doWindowsBreak;
+            Plugin.Instance.DoWindowsBreak = !Plugin.Instance.DoWindowsBreak;
 
             IEnumerable<Window> windows = Window.List;
-            if (!Plugin.Instance.doWindowsBreak) Plugin.Instance.windowHealthList.Clear();
+            if (!Plugin.Instance.DoWindowsBreak) Plugin.Instance.WindowHealthList.Clear();
             foreach (Window w in windows) {
-                if (!Plugin.Instance.doWindowsBreak) {
-                    Plugin.Instance.windowHealthList.Add(w, w.Health);
+                if (!Plugin.Instance.DoWindowsBreak) {
+                    Plugin.Instance.WindowHealthList.Add(w, w.Health);
                     w.Health = float.PositiveInfinity;
                 } else {
-                    Plugin.Instance.windowHealthList.TryGetValue(w, out var health);
+                    Plugin.Instance.WindowHealthList.TryGetValue(w, out var health);
                     w.Health = health;
                 }
             }
 
-            Log.Debug($"Windows breaking is set to {Plugin.Instance.doWindowsBreak}");
-            response = $"Done! Windows breaking is now {Plugin.Instance.doWindowsBreak}";
+            Log.Debug($"Windows breaking is set to {Plugin.Instance.DoWindowsBreak}");
+            response = $"Done! Windows breaking is now {Plugin.Instance.DoWindowsBreak}";
             return true;
         }
     }

@@ -21,10 +21,10 @@ namespace Event_Helper.Commands {
                 return false;
             }
 
-            Plugin.Instance.doDoorsBreak = !Plugin.Instance.doDoorsBreak;
+            Plugin.Instance.DoDoorsBreak = !Plugin.Instance.DoDoorsBreak;
 
-            Log.Debug($"Doors breaking is set to {Plugin.Instance.doDoorsBreak}");
-            response = $"Done! Doors breaking is now {Plugin.Instance.doDoorsBreak}";
+            Log.Debug($"Doors breaking is set to {Plugin.Instance.DoDoorsBreak}");
+            response = $"Done! Doors breaking is now {Plugin.Instance.DoDoorsBreak}";
             return true;
         }
     }
