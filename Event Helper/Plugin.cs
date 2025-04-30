@@ -12,29 +12,9 @@ namespace Event_Helper {
         public override string Name { get; } = "Event Helper";
         public override string Prefix { get; } = "EH";
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public override Version RequiredExiledVersion { get; } = new(9, 6, 0);
         public override Version Version { get; } = new(3, 5, 5);
 
         public static Plugin Instance { get; private set; }
-
-        /*
-        public ReadOnlyCollection<string> CommandList { get; } = new(
-            new List<string> {
-            "amountofdroppeditems",
-            "disablepickups",
-            "doorsbreaking",
-            "ehreset",
-            "giveeffectonspawn",
-            "giveitemonwave",
-            "infammo",
-            "infammoingun",
-            "lockingdoors",
-            "spawningwithitem",
-            "stopteslas",
-            "wavesenabled",
-            "windowsbreaking"
-        });
-        */
 
         public bool IsInfAmmoEnabled { get; set; } = false;
 
