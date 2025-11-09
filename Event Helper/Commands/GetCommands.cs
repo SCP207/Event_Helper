@@ -18,11 +18,8 @@ public class GetCommands : ICommand {
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
         response = "Commands:";
-        foreach (var commandDict in Plugin.Instance.Commands.Values) {
-            foreach (var command in commandDict.Values) {
-                response += $"\n{command.Command}";
-            }
-        }
+        foreach (var commandDict in Plugin.Instance.Commands.Values)
+            response += string.Join("\n", commandDict.Values);
 
         return true;
     }
