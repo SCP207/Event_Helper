@@ -6,99 +6,99 @@ using System.Collections.ObjectModel;
 using Event_Helper.Commands;
 using Exiled.API.Features.Waves;
 
-namespace Event_Helper {
-    public class Plugin : Plugin<Config> {
-        public override string Author { get; } = "SCP-207";
-        public override string Name { get; } = "Event Helper";
-        public override string Prefix { get; } = "EH";
-        public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public override Version Version { get; } = new(3, 5, 5);
+namespace Event_Helper;
 
-        public static Plugin Instance { get; private set; }
+public class Plugin : Plugin<Config> {
+    public override string Author => "SCP-207";
+    public override string Name => "Event Helper";
+    public override string Prefix => "EH";
+    public override PluginPriority Priority => PluginPriority.Default;
+    public override Version Version => new(3, 5, 6);
 
-        public bool IsInfAmmoEnabled { get; set; } = false;
+    public static Plugin Instance { get; private set; }
 
-        public bool IsInfInGunAmmoEnabled { get; set; } = false;
+    public bool IsInfAmmoEnabled { get; set; } = false;
 
-        public bool AreSpawnWavesEnabled { get; set; } = true;
+    public bool IsInfInGunAmmoEnabled { get; set; } = false;
 
-        public bool AreItemsBeingGivenOnWave { get; set; } = false;
-        public ItemType ItemsBeingGiven { get; set; } = ItemType.None;
-        public bool ItemsOnlyOnWaves { get; set; } = true;
+    public bool AreSpawnWavesEnabled { get; set; } = true;
 
-        public bool AreEffectsBeingGivenOnSpawn { get; set; } = false;
-        public List<string> EffectNames { get; } = new();
-        public float EffectDuration { get; set; } = 0;
-        public byte EffectIntensity { get; set; } = 0;
-        public Dictionary<string, byte> EffectIntensityAdditionOverTime { get; } = new();
-        public bool EffectsOnlyOnWaves { get; set; } = true;
+    public bool AreItemsBeingGivenOnWave { get; set; } = false;
+    public ItemType ItemsBeingGiven { get; set; } = ItemType.None;
+    public bool ItemsOnlyOnWaves { get; set; } = true;
 
-        public bool AreTeslasTriggering { get; set; } = true;
+    public bool AreEffectsBeingGivenOnSpawn { get; set; } = false;
+    public List<string> EffectNames => [];
+    public float EffectDuration { get; set; } = 0;
+    public byte EffectIntensity { get; set; } = 0;
+    public Dictionary<string, byte> EffectIntensityAdditionOverTime => [];
+    public bool EffectsOnlyOnWaves { get; set; } = true;
 
-        public bool DoPlayersSpawnWithItems { get; set; } = true;
-        public bool AffectOnlyClassD { get; set; } = false;
+    public bool AreTeslasTriggering { get; set; } = true;
 
-        public bool DoDoorsBreak { get; set; } = true;
+    public bool DoPlayersSpawnWithItems { get; set; } = true;
+    public bool AffectOnlyClassD { get; set; } = false;
 
-        public bool DoWindowsBreak { get; set; } = true;
-        public Dictionary<Window, float> WindowHealthList { get; } = new();
+    public bool DoDoorsBreak { get; set; } = true;
 
-        public List<Player> PlayersThatLockDoors { get; } = new();
+    public bool DoWindowsBreak { get; set; } = true;
+    public Dictionary<Window, float> WindowHealthList => [];
 
-        public Dictionary<ItemType, (List<Player> affectedPlayers, bool affectsEveryone)> ItemUnableToPickUp { get; } = new();
+    public List<Player> PlayersThatLockDoors => [];
 
-        public override void OnEnabled() {
-            Instance = this;
-            RegisterCommands();
+    public Dictionary<ItemType, (List<Player> affectedPlayers, bool affectsEveryone)> ItemUnableToPickUp => [];
 
-            base.OnEnabled();
-        }
+    public override void OnEnabled() {
+        Instance = this;
+        RegisterCommands();
 
-        public override void OnDisabled() {
-            Instance = null;
-            UnregisterCommands();
+        base.OnEnabled();
+    }
 
-            base.OnDisabled();
-        }
+    public override void OnDisabled() {
+        Instance = null;
+        UnregisterCommands();
 
-        private void RegisterCommands() {
-            Handlers.Player.RegisterEvents();
-            Handlers.Server.RegisterEvents();
-        }
+        base.OnDisabled();
+    }
 
-        private void UnregisterCommands() {
-            Handlers.Player.UnregisterEvents();
-            Handlers.Server.UnregisterEvents();
-        }
+    private void RegisterCommands() {
+        Handlers.Player.RegisterEvents();
+        Handlers.Server.RegisterEvents();
+    }
 
-        public void ResetCommands() {
-            IsInfAmmoEnabled = false;
+    private void UnregisterCommands() {
+        Handlers.Player.UnregisterEvents();
+        Handlers.Server.UnregisterEvents();
+    }
 
-            IsInfInGunAmmoEnabled = false;
+    public void ResetCommands() {
+        IsInfAmmoEnabled = false;
 
-            AreSpawnWavesEnabled = true;
-            WaveTimer.GetWaveTimers().ForEach(w => w.Unpause());
+        IsInfInGunAmmoEnabled = false;
 
-            AreItemsBeingGivenOnWave = false;
+        AreSpawnWavesEnabled = true;
+        WaveTimer.GetWaveTimers().ForEach(w => w.Unpause());
 
-            AreEffectsBeingGivenOnSpawn = false;
-            EffectNames.Clear();
+        AreItemsBeingGivenOnWave = false;
 
-            AreTeslasTriggering = true;
+        AreEffectsBeingGivenOnSpawn = false;
+        EffectNames.Clear();
 
-            DoPlayersSpawnWithItems = true;
-            AffectOnlyClassD = false;
+        AreTeslasTriggering = true;
 
-            DoDoorsBreak = true;
+        DoPlayersSpawnWithItems = true;
+        AffectOnlyClassD = false;
 
-            DoWindowsBreak = true;
-            WindowHealthList.Clear();
+        DoDoorsBreak = true;
 
-            PlayersThatLockDoors.Clear();
+        DoWindowsBreak = true;
+        WindowHealthList.Clear();
 
-            ItemUnableToPickUp.Clear();
+        PlayersThatLockDoors.Clear();
 
-            Log.Debug("Commands have been reset");
-        }
+        ItemUnableToPickUp.Clear();
+
+        Log.Debug("Commands have been reset");
     }
 }

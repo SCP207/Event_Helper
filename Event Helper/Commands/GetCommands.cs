@@ -5,25 +5,24 @@ using Exiled.API.Features.Pickups;
 using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Event_Helper.Commands {
-    [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class GetCommands : ICommand {
-        public string Command { get; } = "ehhelp";
+namespace Event_Helper.Commands;
 
-        public string[] Aliases { get; } = { "ehgetcommands", "ehh" };
+[CommandHandler(typeof(RemoteAdminCommandHandler))]
+public class GetCommands : ICommand {
+    public string Command => "ehhelp";
 
-        public string Description { get; } = "Gets a list of all commands in the Event Helpers plugin";
+    public string[] Aliases => ["ehgetcommands", "ehh"];
 
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            response = "Commands:";
-            foreach (var commandDict in Plugin.Instance.Commands.Values) {
-                foreach (var command in commandDict.Values) {
-                    response += $"\n{command.Command}";
-                }
-            }
+    public string Description => "Gets a list of all commands in the Event Helpers plugin";
 
-            return true;
-        }
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
+        response = "Commands:\n\n";
+        foreach (var commandDict in Plugin.Instance.Commands.Values)
+            response += string.Join("\n\n", commandDict.Values
+                .Select(c => $"{c.Command}{(c.Aliases.Length > 0 ? $"\nAliases: ({string.Join(", ", c.Aliases)})" : "")}\nDescription: {c.Description}"));
+
+        return true;
     }
 }

@@ -5,38 +5,38 @@ using Event_Helper;
 using Exiled.API.Features.Waves;
 using Exiled.API.Features;
 
-namespace Event_Helper.Commands {
-    [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class Waves : ICommand {
-        public string Command { get; } = "wavesenabled";
-        public string[] Aliases { get; } = { "we", "enablewaves", "wavesoff", "togglewaves", "disablewaves" };
-        public string Description { get; } = "Turns waves on and off (Toggle)";
+namespace Event_Helper.Commands;
 
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.wavesenabled")) {
-                response = "You don't have permission to run this command";
-                return false;
-            }
-            if (arguments.Count != 0) {
-                response = "You have too many arguments\nUsage: wavesenabled";
-                return false;
-            }
+[CommandHandler(typeof(RemoteAdminCommandHandler))]
+public class Waves : ICommand {
+    public string Command => "wavesenabled";
+    public string[] Aliases => [ "we", "enablewaves", "wavesoff", "togglewaves", "disablewaves" ];
+    public string Description => "Turns waves on and off (Toggle)";
 
-            Plugin.Instance.AreSpawnWavesEnabled = !Plugin.Instance.AreSpawnWavesEnabled;
-            var waves = WaveTimer.GetWaveTimers();
-            waves.ForEach(w => {
-                if (!Plugin.Instance.AreSpawnWavesEnabled) {
-                    w.Pause(float.PositiveInfinity);
-                } else {
-                    w.Unpause();
-                }
-            });
-
-            string spawnWaves = (Plugin.Instance.AreSpawnWavesEnabled) ? "enabled" : "disabled";
-
-            Log.Debug($"Spawn waves are not {spawnWaves}");
-            response = $"Done! Spawn waves are now {spawnWaves}";
-            return true;
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
+        if (!sender.CheckPermission("eh.wavesenabled")) {
+            response = "You don't have permission to run this command";
+            return false;
         }
+        if (arguments.Count != 0) {
+            response = "You have too many arguments\nUsage: wavesenabled";
+            return false;
+        }
+
+        Plugin.Instance.AreSpawnWavesEnabled = !Plugin.Instance.AreSpawnWavesEnabled;
+        var waves = WaveTimer.GetWaveTimers();
+        waves.ForEach(w => {
+            if (!Plugin.Instance.AreSpawnWavesEnabled) {
+                w.Pause(float.PositiveInfinity);
+            } else {
+                w.Unpause();
+            }
+        });
+
+        string spawnWaves = (Plugin.Instance.AreSpawnWavesEnabled) ? "enabled" : "disabled";
+
+        Log.Debug($"Spawn waves are not {spawnWaves}");
+        response = $"Done! Spawn waves are now {spawnWaves}";
+        return true;
     }
 }
