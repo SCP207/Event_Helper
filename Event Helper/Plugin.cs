@@ -13,7 +13,7 @@ public class Plugin : Plugin<Config> {
     public override string Name => "Event Helper";
     public override string Prefix => "EH";
     public override PluginPriority Priority => PluginPriority.Default;
-    public override Version Version => new(3, 5, 6);
+    public override Version Version => new(3, 5, 7);
 
     public static Plugin Instance { get; private set; }
 

@@ -32,3 +32,5 @@ Use `ehhelp` to see the list of commands
 13. disablepickups - Allows you to prevent people from picking up specific items - eh.pickups
 
 14. ehreset - Allows you to reset all commands in the plugin to their default states - eh.resetcommands
+
+15. transferitem - Transfers a players held item (or an item is a slot of your choice) to another player - eh.transfer

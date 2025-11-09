@@ -1,6 +1,7 @@
 ﻿using CommandSystem;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
+using Exiled.Permissions.Extensions;
 using System;
 using System.Linq;
 
@@ -19,6 +20,11 @@ public class TransferItem : ICommand, IUsageProvider {
     public string UsageMessage => $"Usage: {Command} [{string.Join("] [", Usage)}]";
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
+        if (!sender.CheckPermission("eh.transfer")) {
+            response = "You don't have the permission to use this command";
+            return false;
+        }
+
         if (arguments.Count == 0) {
             response = UsageMessage;
             return false;

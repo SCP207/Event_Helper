@@ -18,17 +18,9 @@ public class GiveAll : ICommand, IUsageProvider {
 
     public string[] Usage => [ "Items" ];
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> Updated to EXILED 9.10 + Added new command
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
         if (!sender.CheckPermission(PlayerPermissions.GivingItems)) {
             response = "You don't have the permission to use this command";
-            return false;
-<<<<<<< HEAD
-=======
-=======
             if (arguments.Count == 0) {
                 response = "Usage: giveall [Items]";
                 return false;
@@ -38,23 +30,21 @@ public class GiveAll : ICommand, IUsageProvider {
                 return false;
             }
 
-            var itemStrings = arguments.At(0).Split('.');
-            List<ItemType> items = new();
-            foreach (var itemString in itemStrings) {
-                if (!Enum.TryParse(itemString, false, out ItemType itemType)) {
+            var itemString = arguments.At(0).Split('.');
+            List<ItemType> item = new();
+            foreach (var itemStr in itemString) {
+                if (!Enum.TryParse(itemStr, false, out ItemType itemType)) {
                     response = $"One of your items was not an item: {arguments.At(0)}";
                     return false;
                 }
-                items.Add(itemType);
+                item.Add(itemType);
             }
 
             foreach (var player in Player.List)
-                player.AddItem(items);
+                player.AddItem(item);
 
             response = "Done! Gave all players items";
             return true;
->>>>>>> parent of 8cbd423 (Added debug log (forgot about it))
->>>>>>> Updated to EXILED 9.10 + Added new command
         }
 
         if (arguments.Count == 0) {
