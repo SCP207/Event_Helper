@@ -8,51 +8,51 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Event_Helper.Commands {
-    [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class LockDoors : ICommand, IUsageProvider {
-        public string Command { get; } = "lockingdoors";
-        public string[] Aliases { get; } = { "doorlocking", "dl" };
-        public string Description { get; } = "Like bypass, but allows a player to lock a door";
-        public string[] Usage { get; } = { "Add / Remove", "%player%"};
+namespace Event_Helper.Commands;
 
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.lockingdoors")) {
-                response = "You don't have permission to run this command";
-                return false;
-            }
-            if (arguments.Count == 0) {
-                response = "Usage: lockdoors [Add / Remove] [%player%]";
-                return false;
-            }
-            if (arguments.Count != 2) {
-                response = "You have too many or too little arguments\nUsage: lockdoors [Add / Remove] [%player%]";
-                return false;
-            }
+[CommandHandler(typeof(RemoteAdminCommandHandler))]
+public class LockDoors : ICommand, IUsageProvider {
+    public string Command => "lockingdoors";
+    public string[] Aliases => ["doorlocking", "dl"];
+    public string Description => "Like bypass, but allows a player to lock a door";
+    public string[] Usage => ["Add / Remove", "%player%"];
 
-            string isAdded = (arguments.At(0) == "remove") ? "removed from" : "added to";
-
-            IEnumerable<Player> players;
-            if (arguments.At(1) == "*" || arguments.At(1) == "all") {
-                players = Player.Dictionary.Values;
-                response = $"Done! Players were {isAdded} LockDoors\nPlayers: All";
-            } else {
-                players = Player.GetProcessedData(arguments, 1);
-                response = $"Done! Players were {isAdded} LockDoors\nPlayers: {players.Log()}";
-            }
-            if (arguments.At(0) == "remove") {
-                foreach (Player p in players) {
-                    Plugin.Instance.PlayersThatLockDoors.Remove(p);
-                }
-            } else if (arguments.At(0) == "add") {
-                Plugin.Instance.PlayersThatLockDoors.AddRange(players);
-            } else {
-                response = $"Invalid value: {arguments.At(0)}";
-                return false;
-            }
-
-            Log.Debug($"Players {isAdded} lock doors\n{players.Log()}");
-            return true;
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
+        if (!sender.CheckPermission("eh.lockingdoors")) {
+            response = "You don't have permission to run this command";
+            return false;
         }
+        if (arguments.Count == 0) {
+            response = "Usage: lockdoors [Add / Remove] [%player%]";
+            return false;
+        }
+        if (arguments.Count != 2) {
+            response = "You have too many or too little arguments\nUsage: lockdoors [Add / Remove] [%player%]";
+            return false;
+        }
+
+        string isAdded = (arguments.At(0) == "remove") ? "removed from" : "added to";
+
+        IEnumerable<Player> players;
+        if (arguments.At(1) == "*" || arguments.At(1) == "all") {
+            players = Player.Dictionary.Values;
+            response = $"Done! Players were {isAdded} LockDoors\nPlayers: All";
+        } else {
+            players = Player.GetProcessedData(arguments, 1);
+            response = $"Done! Players were {isAdded} LockDoors\nPlayers: {players.Log()}";
+        }
+        if (arguments.At(0) == "remove") {
+            foreach (Player p in players) {
+                Plugin.Instance.PlayersThatLockDoors.Remove(p);
+            }
+        } else if (arguments.At(0) == "add") {
+            Plugin.Instance.PlayersThatLockDoors.AddRange(players);
+        } else {
+            response = $"Invalid value: {arguments.At(0)}";
+            return false;
+        }
+
+        Log.Debug($"Players {isAdded} lock doors\n{players.Log()}");
+        return true;
     }
 }

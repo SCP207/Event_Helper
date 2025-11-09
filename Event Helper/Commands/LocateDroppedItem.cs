@@ -6,46 +6,46 @@ using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Event_Helper.Commands {
-    [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class AmountOfDroppedItems : ICommand, IUsageProvider {
-        int itemId, amount;
+namespace Event_Helper.Commands;
 
-        public string Command { get; } = "amountofdroppeditems";
-        public string[] Aliases { get; } = { "aodi", "adi", "locateitems", "locatepickup", "lp" };
-        public string Description { get; } = "Locates all dropped items of a specific type";
-        public string[] Usage { get; } = { "Item ID" };
+[CommandHandler(typeof(RemoteAdminCommandHandler))]
+public class AmountOfDroppedItems : ICommand, IUsageProvider {
+    int _itemId, _amount;
 
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.locateitems")) {
-                response = "You don't have permission to run this command";
-                return false;
-            }
-            if (arguments.Count == 0) {
-                response = "Usage: amountofdroppeditems [Item ID]";
-                return false;
-            }
-            if (arguments.Count != 1) {
-                response = "You have too many arguments\nUsage: amountofdroppeditems [Item ID]";
-                return false;
-            }
-            if (!int.TryParse(arguments.At(0), out itemId)) {
-                response = $"Invalid value: {arguments.At(0)}";
-                return false;
-            }
+    public string Command => "amountofdroppeditems";
+    public string[] Aliases => ["aodi", "adi", "locateitems", "locatepickup", "lp"];
+    public string Description => "Locates all dropped items of a specific type";
+    public string[] Usage => ["Item ID"];
 
-            ItemType item = (ItemType)itemId;
-
-            IEnumerable<Pickup> pickups = Pickup.List;
-            foreach (Pickup p in pickups) {
-                if (p.Type == item) {
-                    amount++;
-                }
-            }
-
-            Log.Debug($"There are {amount} {item}s");
-            response = $"Done! There are {amount} {item}s";
-            return true;
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
+        if (!sender.CheckPermission("eh.locateitems")) {
+            response = "You don't have permission to run this command";
+            return false;
         }
+        if (arguments.Count == 0) {
+            response = "Usage: amountofdroppeditems [Item ID]";
+            return false;
+        }
+        if (arguments.Count != 1) {
+            response = "You have too many arguments\nUsage: amountofdroppeditems [Item ID]";
+            return false;
+        }
+        if (!int.TryParse(arguments.At(0), out _itemId)) {
+            response = $"Invalid value: {arguments.At(0)}";
+            return false;
+        }
+
+        ItemType item = (ItemType)_itemId;
+
+        IEnumerable<Pickup> pickups = Pickup.List;
+        foreach (Pickup p in pickups) {
+            if (p.Type == item) {
+                _amount++;
+            }
+        }
+
+        Log.Debug($"There are {_amount} {item}s");
+        response = $"Done! There are {_amount} {item}s";
+        return true;
     }
 }

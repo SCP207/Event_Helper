@@ -7,28 +7,28 @@ using Exiled.API.Enums;
 using Exiled.API.Interfaces;
 using Exiled.Events.Commands.Reload;
 
-namespace Event_Helper.Commands {
-    [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class InfAmmo : ICommand {
-        public string Command { get; } = "infammo";
-        public string[] Aliases { get; } = { "ia", "infiniteammo" };
-        public string Description { get; } = "Gives every player infinite ammo (Toggle)";
-        
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
-            if (!sender.CheckPermission("eh.infammo")) {
-                response = "You don't have permission to run this command";
-                return false;
-            }
-            if (arguments.Count != 0) {
-                response = "You have too many arguments\nUsage: infammo";
-                return false;
-            }
+namespace Event_Helper.Commands;
 
-            Plugin.Instance.IsInfAmmoEnabled = !Plugin.Instance.IsInfAmmoEnabled;
-
-            Log.Debug($"InfAmmo is set to {Plugin.Instance.IsInfAmmoEnabled}");
-            response = $"Done! InfAmmo is set to {Plugin.Instance.IsInfAmmoEnabled}";
-            return true;
+[CommandHandler(typeof(RemoteAdminCommandHandler))]
+public class InfAmmo : ICommand {
+    public string Command => "infammo";
+    public string[] Aliases => [ "ia", "infiniteammo" ];
+    public string Description => "Gives every player infinite ammo (Toggle)";
+    
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response) {
+        if (!sender.CheckPermission("eh.infammo")) {
+            response = "You don't have permission to run this command";
+            return false;
         }
+        if (arguments.Count != 0) {
+            response = "You have too many arguments\nUsage: infammo";
+            return false;
+        }
+
+        Plugin.Instance.IsInfAmmoEnabled = !Plugin.Instance.IsInfAmmoEnabled;
+
+        Log.Debug($"InfAmmo is set to {Plugin.Instance.IsInfAmmoEnabled}");
+        response = $"Done! InfAmmo is set to {Plugin.Instance.IsInfAmmoEnabled}";
+        return true;
     }
 }
